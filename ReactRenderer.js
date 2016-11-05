@@ -84,8 +84,7 @@ var ReactRenderer = Jii.defineClass('Jii.react.ReactRenderer', /** @lends Jii.re
         view = Jii.namespace(view);
 
         // Set current layout
-        var name = view.className();
-        if (!this.layout || this.layout.className() !== name) {
+        if (!this.layout || !(this.layout instanceof view)) {
             var container = document.getElementById(this.__static.APP_ID_PREFIX + Jii.app.id);
 
             params.context = context;

@@ -388,7 +388,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
                 column = this._createDataColumn(column, index);
             } else {
                 column = Jii.createObject(_extend({
-                    className: this.props.dataColumnClassName || DataColumn.className(),
+                    className: this.props.dataColumnClassName || DataColumn,
                     grid: this,
                     key: (column.attribute || 'c') + index
                 }, column));
@@ -416,7 +416,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
         }
 
         return Jii.createObject({
-            className: this.props.dataColumnClassName || DataColumn.className(),
+            className: this.props.dataColumnClassName || DataColumn,
             grid: this,
             key: matches[1] + '-' + index,
             attribute: matches[1],
