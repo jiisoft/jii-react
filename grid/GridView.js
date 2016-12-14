@@ -17,172 +17,22 @@ var _extend = require('lodash/extend');
 var _keys = require('lodash/keys');
 var BaseListView = require('../widgets/BaseListView');
 var React = require('react');
+class GridView extends BaseListView {
 
-
-/**
- * @class Jii.react.grid.GridView
- * @extends Jii.react.widgets.BaseListView
- */
-var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.grid.GridView.prototype */{
-
-    __extends: BaseListView,
-
-    __static: /** @lends Jii.react.grid.GridView */{
-
-        /**
-         * @alias {Jii.react.grid.GridView.prototype.props}
-         */
-        propTypes: Jii.mergeConfigs(BaseListView.propTypes, {
-
-            /**
-             * @type {string} the default data column class if the class name is not explicitly specified when configuring a data column.
-             * Defaults to 'Jii.react.grid.DataColumn'.
-             */
-            dataColumnClassName: React.PropTypes.string,
-
-            /**
-             * @type {string} the caption of the grid table
-             */
-            caption: React.PropTypes.string,
-
-            /**
-             * @type {object} the HTML attributes for the caption element.
-             */
-            captionOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the HTML attributes for the grid table element.
-             */
-            tableOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the HTML attributes for the container tag of the grid view.
-             * The "tag" element specifies the tag name of the container element and defaults to "div".
-             */
-            options: React.PropTypes.object,
-
-            /**
-             * @type {object} the HTML attributes for the table header row.
-             */
-            headerRowOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the HTML attributes for the table footer row.
-             */
-            footerRowOptions: React.PropTypes.object,
-
-            /**
-             * @type {object|function} the HTML attributes for the table body rows. This can be either an array
-             * specifying the common HTML attributes for all body rows, or an anonymous function that
-             * returns an array of the HTML attributes. The anonymous function will be called once for every
-             * data model returned by [[dataProvider]]. It should have the following signature:
-             *
-             * ```js
-             * function (model, key, index, grid)
-             * ```
-             *
-             * - `model`: the current data model being rendered
-             * - `key`: the key value associated with the current data model
-             * - `index`: the zero-based index of the data model in the model array returned by [[dataProvider]]
-             * - `grid`: the GridView object
-             */
-            rowOptions: React.PropTypes.object,
-
-            /**
-             * @type {function} an anonymous function that is called once BEFORE rendering each data model.
-             * It should have the similar signature as [[rowOptions]]. The return result of the function
-             * will be rendered directly.
-             */
-            beforeRow: React.PropTypes.func,
-
-            /**
-             * @type {function} an anonymous function that is called once AFTER rendering each data model.
-             * It should have the similar signature as [[rowOptions]]. The return result of the function
-             * will be rendered directly.
-             */
-            afterRow: React.PropTypes.func,
-
-            /**
-             * @type {boolean} whether to show the header section of the grid table.
-             */
-            showHeader: React.PropTypes.bool,
-
-            /**
-             * @type {boolean} whether to show the footer section of the grid table.
-             */
-            showFooter: React.PropTypes.bool,
-
-            /**
-             * @type {boolean} whether to show the grid view if [[dataProvider]] returns no data.
-             */
-            showOnEmpty: React.PropTypes.bool,
-
-            /**
-             * @type {[]} grid column configuration. Each array element represents the configuration
-             * for one particular grid column.
-             */
-            columns: React.PropTypes.object,
-
-            /**
-             * @type {string} the HTML display when the content of a cell is empty.
-             * This property is used to render cells that have no defined content,
-             * e.g. empty footer or filter cells.
-             *
-             * Note that this is not used by the [[Jii.react.grid.DataColumn]] if a data item is `null`. In that case
-             * the [[\jii\i18n\Formatter.nullDisplay|nullDisplay]] property of the [[formatter]] will
-             * be used to indicate an empty data value.
-             */
-            emptyCell: React.PropTypes.string,
-
-            /**
-             * @type {string} the layout that determines how different sections of the list view should be organized.
-             * The following tokens will be replaced with the corresponding section contents:
-             *
-             * - `{summary}`: the summary section. See [[renderSummary()]].
-             * - `{errors}`: the filter model error summary. See [[renderErrors()]].
-             * - `{items}`: the list items. See [[renderItems()]].
-             * - `{sorter}`: the sorter. See [[renderSorter()]].
-             * - `{pager}`: the pager. See [[renderPager()]].
-             */
-            layout: React.PropTypes.string
-        }),
-
-        defaultProps: Jii.mergeConfigs(BaseListView.defaultProps, {
-            dataColumnClassName: null,
-            caption: null,
-            captionOptions: {},
-            tableOptions: {
-                className: 'table table-striped table-bordered'
-            },
-            options: {
-                className: 'grid-view'
-            },
-            headerRowOptions: {},
-            footerRowOptions: {},
-            rowOptions: {},
-            beforeRow: null,
-            afterRow: null,
-            showHeader: true,
-            showFooter: false,
-            showOnEmpty: true,
-            columns: {},
-            emptyCell: ' ',
-            layout: '{summary}\n{items}\n{pager}'
-        })
-
-    },
-
-    // @todo Move to props for dynamically change
-    _columns: [],
+    preInit() {
+        // @todo Move to props for dynamically change
+        this._columns = [];
+        super.preInit(...arguments);
+    }
 
     /**
      * Initializes the grid view.
      * This method will initialize required property values and instantiate [[columns]] objects.
      */
     init() {
-        this.__super();
+        super.init();
         this._initColumns();
-    },
+    }
 
     /**
      * Renders validator errors of filter model.
@@ -190,7 +40,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
      */
     renderErrors() {
         return ''; // @todo
-    },
+    }
 
     /**
      * @inheritdoc
@@ -201,8 +51,8 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
                 return this.renderErrors();
         }
 
-        return this.__super(name);
-    },
+        return super.renderSection(name);
+    }
 
     /**
      * Renders the data models for the grid view.
@@ -214,14 +64,17 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
         var tableBody = this.renderTableBody();
         var tableFooter = this.props.showFooter ? this.renderTableFooter() : false;
 
-        return React.createElement.apply(React, ['table', this.props.tableOptions].concat(_filter([
+        return React.createElement.apply(React, [
+            'table',
+            this.props.tableOptions
+        ].concat(_filter([
             caption,
             columnGroup,
             tableHeader,
             tableFooter,
             tableBody
         ])));
-    },
+    }
 
     /**
      * Renders the caption element.
@@ -232,7 +85,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
             return React.createElement('caption', this.props.captionOptions, this.props.caption);
         }
         return false;
-    },
+    }
 
     /**
      * Renders the column group HTML.
@@ -253,45 +106,29 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
             }));
         }
         return false;
-    },
+    }
 
     /**
      * Renders the table header.
      * @returns {object} the rendering result.
      */
     renderTableHeader() {
-        return React.createElement(
-            'thead',
-            null,
-            React.createElement(
-                'tr',
-                this.props.headerRowOptions,
-                _map(this._columns, column => {
-                    /** @typedef {Jii.react.grid.Column} column */
-                    return column.renderHeaderCell();
-                })
-            )
-        );
-    },
+        return React.createElement('thead', null, React.createElement('tr', this.props.headerRowOptions, _map(this._columns, column => {
+            /** @typedef {Jii.react.grid.Column} column */
+            return column.renderHeaderCell();
+        })));
+    }
 
     /**
      * Renders the table footer.
      * @returns {object} the rendering result.
      */
     renderTableFooter() {
-        return React.createElement(
-            'tfoot',
-            null,
-            React.createElement(
-                'tr',
-                this.props.footerRowOptions,
-                _map(this._columns, column => {
-                    /** @typedef {Jii.react.grid.Column} column */
-                    return column.renderFooterCell();
-                })
-            )
-        );
-    },
+        return React.createElement('tfoot', null, React.createElement('tr', this.props.footerRowOptions, _map(this._columns, column => {
+            /** @typedef {Jii.react.grid.Column} column */
+            return column.renderFooterCell();
+        })));
+    }
 
     /**
      * Renders the filter.
@@ -299,7 +136,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
      */
     renderFilters() {
         return ''; // @todo
-    },
+    }
 
     /**
      * Renders the table body.
@@ -329,27 +166,13 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
         });
 
         if (!_isEmpty(rows)) {
-            return React.createElement(
-                'tbody',
-                null,
-                rows
-            );
+            return React.createElement('tbody', null, rows);
         }
 
-        return React.createElement(
-            'tbody',
-            null,
-            React.createElement(
-                'tr',
-                null,
-                React.createElement(
-                    'td',
-                    {colSpan: _size(this._columns)},
-                    this.renderEmpty()
-                )
-            )
-        );
-    },
+        return React.createElement('tbody', null, React.createElement('tr', null, React.createElement('td', {
+            colSpan: _size(this._columns)
+        }, this.renderEmpty())));
+    }
 
     /**
      * Renders a table row with the given data model and key.
@@ -359,20 +182,14 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
      * @returns {object} the rendering result
      */
     renderTableRow(model, key, index) {
-        var options = _isFunction(this.props.rowOptions) ?
-            this.props.rowOptions.call(null, model, key, index, this) :
-            _clone(this.props.rowOptions);
+        var options = _isFunction(this.props.rowOptions) ? this.props.rowOptions.call(null, model, key, index, this) : _clone(this.props.rowOptions);
         options.key = _isObject(key) ? JSON.stringify(key) : String(key);
 
-        return React.createElement(
-            'tr',
-            options,
-            _map(this._columns, column => {
-                /** @typedef {Jii.react.grid.Column} column */
-                return column.renderDataCell(model, key, index);
-            })
-        );
-    },
+        return React.createElement('tr', options, _map(this._columns, column => {
+            /** @typedef {Jii.react.grid.Column} column */
+            return column.renderDataCell(model, key, index);
+        }));
+    }
 
     /**
      * Creates column objects and initializes them.
@@ -400,7 +217,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
         });
 
         this._columns = columns;
-    },
+    }
 
     /**
      * Creates a [[Jii.react.grid.DataColumn]] object based on a string in the format of "attribute:format:label".
@@ -423,7 +240,7 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
             format: matches[3] || 'text',
             label: matches[5] || null
         });
-    },
+    }
 
     /**
      * This function tries to guess the columns to show from the given data
@@ -441,6 +258,146 @@ var GridView = Jii.defineClass('Jii.react.grid.GridView', /** @lends Jii.react.g
         }
     }
 
+}
+
+GridView.defaultProps = Jii.mergeConfigs(BaseListView.defaultProps, {
+    dataColumnClassName: null,
+    caption: null,
+    captionOptions: {},
+    tableOptions: {
+        className: 'table table-striped table-bordered'
+    },
+    options: {
+        className: 'grid-view'
+    },
+    headerRowOptions: {},
+    footerRowOptions: {},
+    rowOptions: {},
+    beforeRow: null,
+    afterRow: null,
+    showHeader: true,
+    showFooter: false,
+    showOnEmpty: true,
+    columns: {},
+    emptyCell: ' ',
+    layout: '{summary}\n{items}\n{pager}'
 });
 
+/**
+         * @alias {Jii.react.grid.GridView.prototype.props}
+         */
+GridView.propTypes = Jii.mergeConfigs(BaseListView.propTypes, {
+
+    /**
+             * @type {string} the default data column class if the class name is not explicitly specified when configuring a data column.
+             * Defaults to 'Jii.react.grid.DataColumn'.
+             */
+    dataColumnClassName: React.PropTypes.string,
+
+    /**
+             * @type {string} the caption of the grid table
+             */
+    caption: React.PropTypes.string,
+
+    /**
+             * @type {object} the HTML attributes for the caption element.
+             */
+    captionOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the HTML attributes for the grid table element.
+             */
+    tableOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the HTML attributes for the container tag of the grid view.
+             * The "tag" element specifies the tag name of the container element and defaults to "div".
+             */
+    options: React.PropTypes.object,
+
+    /**
+             * @type {object} the HTML attributes for the table header row.
+             */
+    headerRowOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the HTML attributes for the table footer row.
+             */
+    footerRowOptions: React.PropTypes.object,
+
+    /**
+             * @type {object|function} the HTML attributes for the table body rows. This can be either an array
+             * specifying the common HTML attributes for all body rows, or an anonymous function that
+             * returns an array of the HTML attributes. The anonymous function will be called once for every
+             * data model returned by [[dataProvider]]. It should have the following signature:
+             *
+             * ```js
+             * function (model, key, index, grid)
+             * ```
+             *
+             * - `model`: the current data model being rendered
+             * - `key`: the key value associated with the current data model
+             * - `index`: the zero-based index of the data model in the model array returned by [[dataProvider]]
+             * - `grid`: the GridView object
+             */
+    rowOptions: React.PropTypes.object,
+
+    /**
+             * @type {function} an anonymous function that is called once BEFORE rendering each data model.
+             * It should have the similar signature as [[rowOptions]]. The return result of the function
+             * will be rendered directly.
+             */
+    beforeRow: React.PropTypes.func,
+
+    /**
+             * @type {function} an anonymous function that is called once AFTER rendering each data model.
+             * It should have the similar signature as [[rowOptions]]. The return result of the function
+             * will be rendered directly.
+             */
+    afterRow: React.PropTypes.func,
+
+    /**
+             * @type {boolean} whether to show the header section of the grid table.
+             */
+    showHeader: React.PropTypes.bool,
+
+    /**
+             * @type {boolean} whether to show the footer section of the grid table.
+             */
+    showFooter: React.PropTypes.bool,
+
+    /**
+             * @type {boolean} whether to show the grid view if [[dataProvider]] returns no data.
+             */
+    showOnEmpty: React.PropTypes.bool,
+
+    /**
+             * @type {[]} grid column configuration. Each array element represents the configuration
+             * for one particular grid column.
+             */
+    columns: React.PropTypes.object,
+
+    /**
+             * @type {string} the HTML display when the content of a cell is empty.
+             * This property is used to render cells that have no defined content,
+             * e.g. empty footer or filter cells.
+             *
+             * Note that this is not used by the [[Jii.react.grid.DataColumn]] if a data item is `null`. In that case
+             * the [[\jii\i18n\Formatter.nullDisplay|nullDisplay]] property of the [[formatter]] will
+             * be used to indicate an empty data value.
+             */
+    emptyCell: React.PropTypes.string,
+
+    /**
+             * @type {string} the layout that determines how different sections of the list view should be organized.
+             * The following tokens will be replaced with the corresponding section contents:
+             *
+             * - `{summary}`: the summary section. See [[renderSummary()]].
+             * - `{errors}`: the filter model error summary. See [[renderErrors()]].
+             * - `{items}`: the list items. See [[renderItems()]].
+             * - `{sorter}`: the sorter. See [[renderSorter()]].
+             * - `{pager}`: the pager. See [[renderPager()]].
+             */
+    layout: React.PropTypes.string
+});
 module.exports = GridView;

@@ -2,24 +2,18 @@
 
 var Jii = require('jii');
 var ReactView = require('./ReactView');
+class LayoutView extends ReactView {
 
-/**
- * @class Jii.react.LayoutView
- * @extends Jii.react.ReactView
- */
-var LayoutView = Jii.defineClass('Jii.react.LayoutView', /** @lends Jii.react.LayoutView.prototype */{
-
-    __extends: ReactView,
-
-    /**
+    preInit() {
+        /**
      * @type {object}
      */
-    state: {
+        this.state = {
 
-        content: null
-
+            content: null
+        };
+        super.preInit(...arguments);
     }
 
-});
-
+}
 module.exports = LayoutView;

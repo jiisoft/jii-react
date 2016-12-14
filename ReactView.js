@@ -1,7 +1,7 @@
 'use strict';
 
 var Jii = require('jii');
-var Object = require('jii/base/Object');
+var BaseObject = require('jii/base/Object');
 var Model = require('jii/base/Model');
 var Collection = require('jii/base/Collection');
 var InvalidParamException = require('jii/exceptions/InvalidParamException');
@@ -10,129 +10,115 @@ var _uniqueId = require('lodash/uniqueId');
 var _each = require('lodash/each');
 var _extend = require('lodash/extend');
 var React = require('react');
+class ReactView extends React.Component {
 
-/**
- * @class Jii.react.ReactView
- * @extends Jii.base.Object
- * @extends React.Component
- */
-var ReactView = Jii.defineClass('Jii.react.ReactView', /** @lends Jii.react.ReactView.prototype */{
+    constructor() {
+        super(...arguments);
 
-    __extends: React.Component,
+        this.preInit();
 
-    __static: /** @lends Jii.react.ReactView */{
+        // Run custom init method
+        this.init();
+    }
 
-        ID_PREFIX: 'v',
+    /**
+     * Customized initialize method
+     */
+    init() {}
 
+    preInit() {
         /**
+         * @type {object}
+         */
+        this.context = null;
+        /**
+         * @type {string}
+         */
+        this.id = _uniqueId(ReactView.ID_PREFIX);
+
+        // Display class name in react warnings
+        ReactView.displayName = this.className();
+    }
+
+    /**
          *
          * @param {Jii.react.ReactView} component
          * @param {string|Jii.base.Model|Jii.base.Collection} model
          * @param {string[]} [attributes]
          */
-        listenModel(component, model, attributes) {
-            attributes = attributes || [];
+    static listenModel(component, model, attributes) {
+        attributes = attributes || [];
 
-            if (!(model instanceof Model) && !(model instanceof Collection)) {
-                throw new InvalidParamException('Not found model for apply to state.');
-            }
-
-            // Event handler
-            var onModelChange = () => {
-                component.forceUpdate();
-            };
-
-            // Mount events
-            var createMountHandler = (subscribeMethod, originalCallback) => {
-                return () => {
-                    if (model instanceof Model) {
-                        model[subscribeMethod](Model.EVENT_CHANGE, onModelChange);
-                        model[subscribeMethod](Model.EVENT_CHANGE_ERRORS, onModelChange);
-                        _each(attributes, attribute => {
-                            model[subscribeMethod](Model.EVENT_CHANGE_NAME + attribute, onModelChange);
-                        });
-                    }
-                    if (model instanceof Collection) {
-                        model[subscribeMethod](Collection.EVENT_CHANGE, onModelChange);
-                        _each(attributes, attribute => {
-                            model[subscribeMethod](Collection.EVENT_CHANGE_NAME + attribute, onModelChange);
-                        });
-                    }
-                    onModelChange();
-                    return originalCallback.apply(this, arguments);
-                }
-            }
-            component.componentWillMount = createMountHandler('on', component.componentWillMount);
-            component.componentWillUnmount = createMountHandler('off', component.componentWillUnmount);
-
-            return model;
-        },
-
-        wrapCallback(callback1, callback2) {
-            return () => {
-                if (!_isFunction(callback1) || callback1.apply(this, arguments) !== false) {
-                    callback2.apply(this, arguments);
-                }
-            }
+        if (!(model instanceof Model) && !(model instanceof Collection)) {
+            throw new InvalidParamException('Not found model for apply to state.');
         }
 
-    },
+        // Event handler
+        var onModelChange = () => {
+            component.forceUpdate();
+        };
 
-    /**
-     * @type {string}
-     */
-    id: null,
+        // Mount events
+        var createMountHandler = (subscribeMethod, originalCallback) => {
+            return () => {
+                if (model instanceof Model) {
+                    model[subscribeMethod](Model.EVENT_CHANGE, onModelChange);
+                    model[subscribeMethod](Model.EVENT_CHANGE_ERRORS, onModelChange);
+                    _each(attributes, attribute => {
+                        model[subscribeMethod](Model.EVENT_CHANGE_NAME + attribute, onModelChange);
+                    });
+                }
+                if (model instanceof Collection) {
+                    model[subscribeMethod](Collection.EVENT_CHANGE, onModelChange);
+                    _each(attributes, attribute => {
+                        model[subscribeMethod](Collection.EVENT_CHANGE_NAME + attribute, onModelChange);
+                    });
+                }
+                onModelChange();
+                return originalCallback.apply(this, arguments);
+            };
+        };
+        component.componentWillMount = createMountHandler('on', component.componentWillMount);
+        component.componentWillUnmount = createMountHandler('off', component.componentWillUnmount);
 
-    /**
-     * @type {object}
-     */
-    context: null,
-
-    constructor() {
-        this.id = _uniqueId(this.__static.ID_PREFIX);
-
-        // Display class name in react warnings
-        this.__static.displayName = this.className();
-
-        this.__super.apply(this, arguments);
-
-        // Run custom init method
-        this.init();
-    },
-
-    setState() {
-        this.__super.apply(this, arguments);
-    },
-
-    forceUpdate() {
-        this.__super.apply(this, arguments);
-    },
-
-    componentDidMount() {
-    },
-
-    componentWillMount() {
-    },
-
-    componentWillUnmount() {
-    },
-
-    componentWillReceiveProps() {
-    },
-
-    componentDidUpdate() {
-    },
-
-    componentWillUpdate() {
-    },
-
-    listenModel(model, listenAttributes) {
-        return this.__static.listenModel(this, model, listenAttributes);
+        return model;
     }
 
-});
+    static wrapCallback(callback1, callback2) {
+        return () => {
+            if (!_isFunction(callback1) || callback1.apply(this, arguments) !== false) {
+                callback2.apply(this, arguments);
+            }
+        };
+    }
 
-_extend(ReactView.__static, Object.__static);
-_extend(ReactView.prototype, Object.prototype);
+    setState() {
+        super.setState.apply(this, arguments);
+    }
 
+    forceUpdate() {
+        super.forceUpdate.apply(this, arguments);
+    }
+
+    componentDidMount() {}
+
+    componentWillMount() {}
+
+    componentWillUnmount() {}
+
+    componentWillReceiveProps() {}
+
+    componentDidUpdate() {}
+
+    componentWillUpdate() {}
+
+    listenModel(model, listenAttributes) {
+        return ReactView.listenModel(this, model, listenAttributes);
+    }
+
+}
+
+ReactView.ID_PREFIX = 'v';
+_extend(ReactView.__static, BaseObject.__static);
+_extend(ReactView.prototype, BaseObject.prototype);
 module.exports = ReactView;

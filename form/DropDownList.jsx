@@ -8,68 +8,38 @@ var _has = require('lodash/has');
 var _isString = require('lodash/isString');
 var ActiveField = require('./ActiveField.jsx');
 var React = require('react');
+class DropDownList extends ActiveField {
 
-/**
- * @class Jii.react.form.DropDownList
- * @extends ActiveField
- */
-var DropDownList = Jii.defineClass('Jii.react.form.DropDownList', /** @lends Jii.react.form.DropDownList.prototype */{
+    static normalizeItems(items) {
+        const result = [];
+        _each(items, (item, value) => {
+            let isDisabled = false;
+            let label = '';
 
-    __extends: ActiveField,
+            if (_isObject(item)) {
+                label = item.label || '';
+                isDisabled = !!item.disabled;
 
-    __static: /** @lends Jii.react.form.DropDownList */{
-
-        /**
-         * @alias {Jii.react.form.DropDownList.prototype.props}
-         */
-        propTypes: Jii.mergeConfigs(ActiveField.propTypes, {
-
-            /**
-             * @type {string}
-             */
-            items: React.PropTypes.oneOfType([
-                React.PropTypes.object,
-                React.PropTypes.array
-            ]),
-
-        }),
-
-        defaultProps: Jii.mergeConfigs(ActiveField.defaultProps, {
-            items: []
-        }),
-
-        normalizeItems(items) {
-            const result = [];
-            _each(items, (item, value) => {
-                let isDisabled = false;
-                let label = '';
-
-                if (_isObject(item)) {
-                    label = item.label || '';
-                    isDisabled = !!item.disabled;
-
-                    if (_has(item, 'value')) {
-                        value = item.value;
-                    }
-                } else if (_isString(item)) {
-                    label = item
+                if (_has(item, 'value')) {
+                    value = item.value;
                 }
+            } else if (_isString(item)) {
+                label = item;
+            }
 
-                result.push({
-                    label: label,
-                    value: value,
-                    disabled: isDisabled,
-                });
+            result.push({
+                label: label,
+                value: value,
+                disabled: isDisabled
             });
-            return result;
-        },
-
-    },
+        });
+        return result;
+    }
 
     init() {
-        this.__super();
+        super.init();
         this._onChange = this._onChange.bind(this);
-    },
+    }
 
     renderInput() {
         return (
@@ -84,7 +54,7 @@ var DropDownList = Jii.defineClass('Jii.react.form.DropDownList', /** @lends Jii
                 onChange={this._onChange}
                 value={this.state.value || ''}
             >
-                {_map(this.__static.normalizeItems(this.props.items), item => {
+                {_map(DropDownList.normalizeItems(this.props.items), item => {
                     let optionProps = {
                         key: item.value,
                         value: item.value,
@@ -95,16 +65,35 @@ var DropDownList = Jii.defineClass('Jii.react.form.DropDownList', /** @lends Jii
                 })}
             </select>
         );
-    },
+    }
 
     _onChange(e) {
         let value = e.target.value;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onChange && this.props.inputOptions.onChange(e, value);
     }
 
+}
+
+DropDownList.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
+    items: []
 });
 
+/**
+         * @alias {Jii.react.form.DropDownList.prototype.props}
+         */
+DropDownList.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
+
+    /**
+             * @type {string}
+             */
+    items: React.PropTypes.oneOfType([
+        React.PropTypes.object,
+        React.PropTypes.array
+    ])
+});
 module.exports = DropDownList;

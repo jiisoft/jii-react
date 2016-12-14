@@ -2,14 +2,11 @@
  * @author <a href="http://www.affka.ru">Vladimir Kozhin</a>
  * @license MIT
  */
-
 'use strict';
 
 var Jii = require('jii');
-
 var React = require('react');
 var ReactDOM = require('react-dom');
-
 // Set React variable as global for compiled code
 if (typeof global !== 'undefined') {
     global.React = React;
@@ -18,35 +15,21 @@ if (typeof window !== 'undefined') {
     window.React = React;
     window.ReactDOM = ReactDOM;
 }
-
 var ReactView = require('./ReactView');
-var IRenderer = require('../IRenderer');
+var IRenderer = require('jii/view/IRenderer');
+class ReactRenderer extends IRenderer {
 
-/**
- * ViewEvent represents events triggered by the [[View]] component.
- *
- * @class Jii.react.ReactRenderer
- * @extends Jii.view.IRenderer
- */
-var ReactRenderer = Jii.defineClass('Jii.react.ReactRenderer', /** @lends Jii.react.ReactRenderer.prototype */{
-
-    __extends: IRenderer,
-
-    __static: /** @lends Jii.react.ReactRenderer */{
-
-        APP_ID_PREFIX: 'app-'
-
-    },
-
-    /**
-     * @type {Jii.react.ReactView}
-     */
-    layout: null,
-
-    /**
+    preInit() {
+        /**
      * @type {object}
      */
-    _lazyContent: null,
+        this._lazyContent = null;
+        /**
+     * @type {Jii.react.ReactView}
+     */
+        this.layout = null;
+        super.preInit(...arguments);
+    }
 
     /**
      *
@@ -60,7 +43,10 @@ var ReactRenderer = Jii.defineClass('Jii.react.ReactRenderer', /** @lends Jii.re
     render(view, context, params, controller, webView) {
         var content = React.createElement(view, params);
         if (this.layout) {
-            this.layout.setState({content: null}); // @todo
+            this.layout.setState({
+                content: null
+            });
+            // @todo
             this.layout.setState({
                 content: content
             });
@@ -69,7 +55,7 @@ var ReactRenderer = Jii.defineClass('Jii.react.ReactRenderer', /** @lends Jii.re
         }
 
         return content;
-    },
+    }
 
     /**
      *
@@ -85,7 +71,7 @@ var ReactRenderer = Jii.defineClass('Jii.react.ReactRenderer', /** @lends Jii.re
 
         // Set current layout
         if (!this.layout || !(this.layout instanceof view)) {
-            var container = document.getElementById(this.__static.APP_ID_PREFIX + Jii.app.id);
+            var container = document.getElementById(ReactRenderer.APP_ID_PREFIX + Jii.app.id);
 
             params.context = context;
             this.layout = ReactDOM.render(React.createElement(view, params), container);
@@ -101,6 +87,7 @@ var ReactRenderer = Jii.defineClass('Jii.react.ReactRenderer', /** @lends Jii.re
         return this.layout;
     }
 
-});
+}
 
+ReactRenderer.APP_ID_PREFIX = 'app-';
 module.exports = ReactRenderer;

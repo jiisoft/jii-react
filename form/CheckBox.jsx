@@ -3,23 +3,16 @@
 var Jii = require('jii');
 var ActiveField = require('./ActiveField.jsx');
 var React = require('react');
-
-/**
- * @class Jii.react.form.CheckBox
- * @extends Jii.react.form.ActiveField
- */
-var CheckBox = Jii.defineClass('Jii.react.form.CheckBox', /** @lends Jii.react.form.CheckBox.prototype */{
-
-    __extends: ActiveField,
+class CheckBox extends ActiveField {
 
     init() {
-        this.__super();
+        super.init();
         this._onChange = this._onChange.bind(this);
-    },
+    }
 
     renderLabel() {
         return null;
-    },
+    }
 
     renderWrapper(children) {
         return (
@@ -34,7 +27,7 @@ var CheckBox = Jii.defineClass('Jii.react.form.CheckBox', /** @lends Jii.react.f
                 {children}
             </div>
         );
-    },
+    }
 
     renderInput() {
         return (
@@ -53,16 +46,17 @@ var CheckBox = Jii.defineClass('Jii.react.form.CheckBox', /** @lends Jii.react.f
                 </label>
             </div>
         );
-    },
+    }
 
     _onChange(e) {
         let value = e.target.checked;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onChange && this.props.inputOptions.onChange(e, value);
     }
 
-});
-
+}
 module.exports = CheckBox;

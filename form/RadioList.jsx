@@ -6,48 +6,12 @@ var _map = require('lodash/map');
 var ActiveField = require('./ActiveField.jsx');
 var React = require('react');
 var DropDownList = require('./DropDownList.jsx');
-
-/**
- * @class Jii.react.form.RadioList
- * @extends ActiveField
- */
-var RadioList = Jii.defineClass('Jii.react.form.RadioList', /** @lends Jii.react.form.RadioList.prototype */{
-
-    __extends: ActiveField,
-
-    __static: /** @lends Jii.react.form.RadioList */{
-
-        /**
-         * @alias {Jii.react.form.RadioList.prototype.props}
-         */
-        propTypes: Jii.mergeConfigs(ActiveField.propTypes, {
-
-            /**
-             * @type {boolean}
-             */
-            inline: React.PropTypes.bool,
-
-            /**
-             * @type {string}
-             */
-            items: React.PropTypes.oneOfType([
-                React.PropTypes.object,
-                React.PropTypes.array
-            ]),
-
-        }),
-
-        defaultProps: Jii.mergeConfigs(ActiveField.defaultProps, {
-            inline: false,
-            items: []
-        }),
-
-    },
+class RadioList extends ActiveField {
 
     init() {
-        this.__super();
+        super.init();
         this._onChange = this._onChange.bind(this);
-    },
+    }
 
     renderInput() {
         return (
@@ -57,7 +21,7 @@ var RadioList = Jii.defineClass('Jii.react.form.RadioList', /** @lends Jii.react
                 {_map(DropDownList.normalizeItems(this.props.items), this.renderItem.bind(this))}
             </div>
         );
-    },
+    }
 
     renderItem(item) {
         if (this.props.inline) {
@@ -69,7 +33,7 @@ var RadioList = Jii.defineClass('Jii.react.form.RadioList', /** @lends Jii.react
                 {this.renderItemLabel(item.label, item.value, item.disabled)}
             </div>
         );
-    },
+    }
 
     renderItemLabel(label, value, isDisabled) {
         return (
@@ -85,16 +49,41 @@ var RadioList = Jii.defineClass('Jii.react.form.RadioList', /** @lends Jii.react
                 /> {label}
             </label>
         );
-    },
+    }
 
     _onChange(e) {
         let value = e.target.value;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onChange && this.props.inputOptions.onChange(e, value);
     }
 
+}
+
+RadioList.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
+    inline: false,
+    items: []
 });
 
+/**
+         * @alias {Jii.react.form.RadioList.prototype.props}
+         */
+RadioList.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
+
+    /**
+             * @type {boolean}
+             */
+    inline: React.PropTypes.bool,
+
+    /**
+             * @type {string}
+             */
+    items: React.PropTypes.oneOfType([
+        React.PropTypes.object,
+        React.PropTypes.array
+    ])
+});
 module.exports = RadioList;

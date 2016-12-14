@@ -2,20 +2,13 @@
 
 var Jii = require('jii');
 var ActiveField = require('./ActiveField.jsx');
-
-/**
- * @class Jii.react.form.TextArea
- * @extends Jii.react.form.ActiveField
- */
-var TextArea = Jii.defineClass('Jii.react.form.TextArea', /** @lends Jii.react.form.TextArea.prototype */{
-
-    __extends: ActiveField,
+class TextArea extends ActiveField {
 
     init() {
-        this.__super();
+        super.init();
         this._onBlur = this._onBlur.bind(this);
         this._onChange = this._onChange.bind(this);
-    },
+    }
 
     renderInput() {
         return (
@@ -34,24 +27,27 @@ var TextArea = Jii.defineClass('Jii.react.form.TextArea', /** @lends Jii.react.f
                 value={this.state.value || ''}
             />
         );
-    },
+    }
 
-    _onBlur: function(e) {
+    _onBlur(e) {
         let value = e.target.value;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onBlur && this.props.inputOptions.onBlur(e);
-    },
+    }
 
     _onChange(e) {
         let value = e.target.value;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onChange && this.props.inputOptions.onChange(e, value);
     }
 
-});
-
+}
 module.exports = TextArea;

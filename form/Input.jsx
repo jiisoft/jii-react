@@ -3,54 +3,21 @@
 var Jii = require('jii');
 var ActiveField = require('./ActiveField.jsx');
 var React = require('react');
-
-/**
- * @class Jii.react.form.Input
- * @extends Jii.react.form.ActiveField
- */
-var Input = Jii.defineClass('Jii.react.form.Input', /** @lends Jii.react.form.Input.prototype */{
-
-    __extends: ActiveField,
-
-    __static: /** @lends Jii.react.form.Input */{
-
-        /**
-         * @alias {Jii.react.form.Input.prototype.props}
-         */
-        propTypes: Jii.mergeConfigs(ActiveField.propTypes, {
-
-            /**
-             * @type {string}
-             */
-            type: React.PropTypes.string,
-
-            /**
-             * @type {string}
-             */
-            placeholder: React.PropTypes.string
-
-        }),
-
-        defaultProps: Jii.mergeConfigs(ActiveField.defaultProps, {
-            type: 'text',
-            placeholder: ''
-        })
-
-    },
+class Input extends ActiveField {
 
     init() {
-        this.__super();
+        super.init();
         this._onBlur = this._onBlur.bind(this);
         this._onChange = this._onChange.bind(this);
-    },
+    }
 
     render() {
         if (this.props.type === 'hidden') {
             return this.renderInput();
         }
 
-        return this.__super();
-    },
+        return super.render();
+    }
 
     renderInput() {
         return (
@@ -69,24 +36,48 @@ var Input = Jii.defineClass('Jii.react.form.Input', /** @lends Jii.react.form.In
                 value={this.state.value || ''}
             />
         );
-    },
+    }
 
-    _onBlur: function(e) {
+    _onBlur(e) {
         let value = e.target.value;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onBlur && this.props.inputOptions.onBlur(e);
-    },
+    }
 
     _onChange(e) {
         let value = e.target.value;
 
-        this.setState({value: value});
+        this.setState({
+            value: value
+        });
         this.validateValue(value, e);
         this.props.inputOptions.onChange && this.props.inputOptions.onChange(e, value);
     }
 
+}
+
+Input.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
+    type: 'text',
+    placeholder: ''
 });
 
+/**
+         * @alias {Jii.react.form.Input.prototype.props}
+         */
+Input.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
+
+    /**
+             * @type {string}
+             */
+    type: React.PropTypes.string,
+
+    /**
+             * @type {string}
+             */
+    placeholder: React.PropTypes.string
+});
 module.exports = Input;

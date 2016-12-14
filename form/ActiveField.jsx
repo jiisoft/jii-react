@@ -10,171 +10,23 @@ var _isObject = require('lodash/isObject');
 var ReactView = require('../ReactView');
 var React = require('react');
 
-/**
- * @class Jii.react.form.ActiveField
- * @extends Jii.react.ReactView
- */
-var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.react.form.ActiveField.prototype */{
+class ActiveField {
 
-    __extends: ReactView,
-
-    __static: /** @lends Jii.react.form.ActiveField */{
-
-        /**
-         * @alias {Jii.react.form.ActiveField.prototype.context}
-         */
-        contextTypes: {
-
-            /**
-             * @type {Jii.react.form.ActiveForm}
-             */
-            form: React.PropTypes.object.isRequired,
-
-            /**
-             * @type {Jii.data.BaseActiveRecord}
-             */
-            model: React.PropTypes.object.isRequired,
-
-            /**
-             * @type {string}
-             */
-            layout: React.PropTypes.string,
-
-        },
-
-        propTypes: {
-
-            /**
-             * @type {string} the model attribute that this field is associated with
-             */
-            attribute: React.PropTypes.string.isRequired,
-
-            /**
-             * @type {string}
-             */
-            label: React.PropTypes.oneOfType([
-                React.PropTypes.bool,
-                React.PropTypes.string,
-                React.PropTypes.element,
-            ]),
-
-            /**
-             * @type {object} the HTML attributes (name-value pairs) for the field container tag.
-             * The values will be HTML-encoded using [[Html.encode()]].
-             * If a value is null, the corresponding attribute will not be rendered.
-             * The following special options are recognized:
-             *
-             * - tag: the tag name of the container element. Defaults to "div".
-             *
-             * If you set a custom `id` for the container element, you may need to adjust the [[selectors]] accordingly.
-             *
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
-            options: React.PropTypes.object,
-
-            wrapperOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the default options for the input tags. The parameter passed to individual input methods
-             * (e.g. [[textInput()]]) will be merged with this property when rendering the input tag.
-             *
-             * If you set a custom `id` for the input element, you may need to adjust the [[selectors]] accordingly.
-             *
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
-            inputOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the default options for the error tags. The parameter passed to [[error()]] will be
-             * merged with this property when rendering the error tag.
-             * The following special options are recognized:
-             *
-             * - tag: the tag name of the container element. Defaults to "div".
-             * - encode: whether to encode the error output. Defaults to true.
-             *
-             * If you set a custom `id` for the error element, you may need to adjust the [[selectors]] accordingly.
-             *
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
-            errorOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the default options for the label tags. The parameter passed to [[label()]] will be
-             * merged with this property when rendering the label tag.
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
-            labelOptions: React.PropTypes.object,
-
-            /**
-             * @type {object} the default options for the hint tags. The parameter passed to [[hint()]] will be
-             * merged with this property when rendering the hint tag.
-             * The following special options are recognized:
-             *
-             * - tag: the tag name of the container element. Defaults to "div".
-             *
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
-            hintOptions: React.PropTypes.object,
-
-            /**
-             * @type {boolean|null} whether to enable client-side data validation.
-             * If not set, it will take the value of [[ActiveForm.enableClientValidation]].
-             */
-            enableValidation: React.PropTypes.bool,
-
-            /**
-             * @type {boolean} whether to perform validation when the value of the input field is changed.
-             * If not set, it will take the value of [[ActiveForm.validateOnChange]].
-             */
-            validateOnChange: React.PropTypes.bool,
-
-            /**
-             * @type {boolean} whether to perform validation while the user is typing in the input field.
-             * If not set, it will take the value of [[ActiveForm.validateOnType]].
-             * @see validationDelay
-             */
-            validateOnType: React.PropTypes.bool,
-
-            /**
-             * @type {number} number of milliseconds that the validation should be delayed when the user types in the field
-             * and [[validateOnType]] is set true.
-             * If not set, it will take the value of [[ActiveForm.validationDelay]].
-             */
-            validationDelay: React.PropTypes.number,
-
-            layout: React.PropTypes.string,
-        },
-
-        defaultProps: {
-            options: {},
-            wrapperOptions: {},
-            inputOptions: {},
-            errorOptions: {},
-            labelOptions: {},
-            hintOptions: {},
-            enableValidation: true,
-            validateOnChange: null,
-            validateOnType: null,
-            validationDelay: null,
-            layout: null,
-        }
-
-    },
-
-    state: {
-        value: null,
-        isValidated: false
-    },
-
-    _timer: null,
+    preInit() {
+        this._timer = null;
+        this.state = {
+            value: null,
+            isValidated: false
+        };
+    }
 
     init() {
         this.state.value = this.getModelValue() || '';
-    },
+    }
 
     getLayout() {
         return this.props.layout || this.context.layout || this.context.form.props.layout;
-    },
+    }
 
     render() {
         if (this.getLayout() === ActiveForm.LAYOUT_INLINE) {
@@ -224,7 +76,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                     }
             </div>
         );
-    },
+    }
 
     /**
      *
@@ -232,7 +84,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
      */
     renderInput() {
         return this.props.children;
-    },
+    }
 
     renderLabel() {
         if (this.props.label === false) {
@@ -255,7 +107,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 {this.props.label || this.context.model.getAttributeLabel(this._getAttributeName())}
             </label>
         );
-    },
+    }
 
     renderWrapper(children) {
         return (
@@ -270,7 +122,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 {children}
             </div>
         );
-    },
+    }
 
     renderError() {
         if (this.getLayout() === ActiveForm.LAYOUT_INLINE) {
@@ -296,7 +148,6 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
             );
         }
 
-
         return (
             <p
                 {...this.props.errorOptions}
@@ -308,7 +159,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 {errorText}
             </p>
         );
-    },
+    }
 
     renderHint() {
         const hintText = this.context.model.getAttributeHint(this._getAttributeName(this.props.attribute));
@@ -330,7 +181,6 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
             );
         }
 
-
         return (
             <p
                 {...this.props.hintOptions}
@@ -342,7 +192,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 {hintText}
             </p>
         );
-    },
+    }
 
     /**
      *
@@ -350,15 +200,15 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
      */
     getModelValue() {
         return this.context.model.get(this._getAttributeName());
-    },
+    }
 
     hasError() {
         return !_isEmpty(this.context.model.getErrors(this._getAttributeName()));
-    },
+    }
 
     hasSuccess() {
         return this.state.isValidated && !this.hasError();
-    },
+    }
 
     _getLayoutOption(horizontal, inline, def) {
         switch (this.getLayout()) {
@@ -368,7 +218,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 return inline || horizontal;
         }
         return def || inline || horizontal;
-    },
+    }
 
     /**
      *
@@ -382,7 +232,18 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 return;
             }
 
-            if (_indexOf([9, 16, 17, 18, 20, 37, 38, 39, 40, 91], event.which) !== -1 ) {
+            if (_indexOf([
+                    9,
+                    16,
+                    17,
+                    18,
+                    20,
+                    37,
+                    38,
+                    39,
+                    40,
+                    91
+                ], event.which) !== -1) {
                 return;
             }
 
@@ -397,7 +258,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
             }
             var time = this.props.validationDelay !== null ? this.props.validationDelay : this.context.form.props.validationDelay;
             this._timer = setTimeout(() => {
-                this._validate(value)
+                this._validate(value);
             }, time);
         } else {
             var isChangeEnable = this.props.validateOnChange !== null ? this.props.validateOnChange : this.context.form.props.validateOnChange;
@@ -405,7 +266,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 this._validate(value);
             }
         }
-    },
+    }
 
     /**
      * @param {*} newValue
@@ -431,19 +292,12 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
                 isValidated: true
             });
         });
-    },
+    }
 
     // @todo move to helpers
     _getInputId() {
-        return this._getInputName()
-            .toLowerCase()
-            .replace(/\[\]/g, '')
-            .replace(/\]\[/g, '-')
-            .replace(/\[/g, '-')
-            .replace(/\]/g, '')
-            .replace(/ /g, '-')
-            .replace(/\./g, '-');
-    },
+        return this._getInputName().toLowerCase().replace(/\[\]/g, '').replace(/\]\[/g, '-').replace(/\[/g, '-').replace(/\]/g, '').replace(/ /g, '-').replace(/\./g, '-');
+    }
 
     // @todo move to helpers
     _getInputName() {
@@ -464,7 +318,7 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
         }
 
         throw new InvalidParamException(this.className() + '::formName() cannot be empty for tabular inputs.');
-    },
+    }
 
     // @todo move to helpers
     _getAttributeName() {
@@ -475,6 +329,143 @@ var ActiveField = Jii.defineClass('Jii.react.form.ActiveField', /** @lends Jii.r
         return matches[2];
     }
 
-});
+}
 
+ActiveField.defaultProps = {
+    options: {},
+    wrapperOptions: {},
+    inputOptions: {},
+    errorOptions: {},
+    labelOptions: {},
+    hintOptions: {},
+    enableValidation: true,
+    validateOnChange: null,
+    validateOnType: null,
+    validationDelay: null,
+    layout: null
+}
+
+ActiveField.propTypes = {
+
+    /**
+             * @type {string} the model attribute that this field is associated with
+             */
+    attribute: React.PropTypes.string.isRequired,
+
+    /**
+             * @type {string}
+             */
+    label: React.PropTypes.oneOfType([
+        React.PropTypes.bool,
+        React.PropTypes.string,
+        React.PropTypes.element
+    ]),
+
+    /**
+             * @type {object} the HTML attributes (name-value pairs) for the field container tag.
+             * The values will be HTML-encoded using [[Html.encode()]].
+             * If a value is null, the corresponding attribute will not be rendered.
+             * The following special options are recognized:
+             *
+             * - tag: the tag name of the container element. Defaults to "div".
+             *
+             * If you set a custom `id` for the container element, you may need to adjust the [[selectors]] accordingly.
+             *
+             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+             */
+    options: React.PropTypes.object,
+
+    wrapperOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the default options for the input tags. The parameter passed to individual input methods
+             * (e.g. [[textInput()]]) will be merged with this property when rendering the input tag.
+             *
+             * If you set a custom `id` for the input element, you may need to adjust the [[selectors]] accordingly.
+             *
+             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+             */
+    inputOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the default options for the error tags. The parameter passed to [[error()]] will be
+             * merged with this property when rendering the error tag.
+             * The following special options are recognized:
+             *
+             * - tag: the tag name of the container element. Defaults to "div".
+             * - encode: whether to encode the error output. Defaults to true.
+             *
+             * If you set a custom `id` for the error element, you may need to adjust the [[selectors]] accordingly.
+             *
+             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+             */
+    errorOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the default options for the label tags. The parameter passed to [[label()]] will be
+             * merged with this property when rendering the label tag.
+             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+             */
+    labelOptions: React.PropTypes.object,
+
+    /**
+             * @type {object} the default options for the hint tags. The parameter passed to [[hint()]] will be
+             * merged with this property when rendering the hint tag.
+             * The following special options are recognized:
+             *
+             * - tag: the tag name of the container element. Defaults to "div".
+             *
+             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+             */
+    hintOptions: React.PropTypes.object,
+
+    /**
+             * @type {boolean|null} whether to enable client-side data validation.
+             * If not set, it will take the value of [[ActiveForm.enableClientValidation]].
+             */
+    enableValidation: React.PropTypes.bool,
+
+    /**
+             * @type {boolean} whether to perform validation when the value of the input field is changed.
+             * If not set, it will take the value of [[ActiveForm.validateOnChange]].
+             */
+    validateOnChange: React.PropTypes.bool,
+
+    /**
+             * @type {boolean} whether to perform validation while the user is typing in the input field.
+             * If not set, it will take the value of [[ActiveForm.validateOnType]].
+             * @see validationDelay
+             */
+    validateOnType: React.PropTypes.bool,
+
+    /**
+             * @type {number} number of milliseconds that the validation should be delayed when the user types in the field
+             * and [[validateOnType]] is set true.
+             * If not set, it will take the value of [[ActiveForm.validationDelay]].
+             */
+    validationDelay: React.PropTypes.number,
+
+    layout: React.PropTypes.string
+};
+
+/**
+         * @alias {Jii.react.form.ActiveField.prototype.context}
+         */
+ActiveField.contextTypes = {
+
+    /**
+             * @type {Jii.react.form.ActiveForm}
+             */
+    form: React.PropTypes.object.isRequired,
+
+    /**
+             * @type {Jii.data.BaseActiveRecord}
+             */
+    model: React.PropTypes.object.isRequired,
+
+    /**
+             * @type {string}
+             */
+    layout: React.PropTypes.string
+};
 module.exports = ActiveField;
