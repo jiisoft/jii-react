@@ -26,6 +26,14 @@ class ReactView extends React.Component {
      */
     init() {}
 
+    /**
+     * Return full class name with namespace
+     * @returns {string}
+     */
+    className() {
+        return this.constructor.name;
+    }
+
     preInit() {
         /**
          * @type {object}
