@@ -10,7 +10,7 @@ var _isObject = require('lodash/isObject');
 var ReactView = require('../ReactView');
 var React = require('react');
 
-class ActiveField {
+class ActiveField extends ReactView {
 
     preInit() {
         this._timer = null;
