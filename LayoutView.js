@@ -6,8 +6,8 @@ class LayoutView extends ReactView {
 
     preInit() {
         /**
-     * @type {object}
-     */
+         * @type {object}
+         */
         this.state = {
 
             content: null
@@ -15,5 +15,16 @@ class LayoutView extends ReactView {
         super.preInit(...arguments);
     }
 
+    getChildContext() {
+        return {
+            context: this.props.context,
+        };
+    }
+
 }
+
+LayoutView.childContextTypes = {
+    context: React.PropTypes.object,
+};
+
 module.exports = LayoutView;
