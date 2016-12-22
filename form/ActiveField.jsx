@@ -18,10 +18,11 @@ class ActiveField extends ReactView {
             value: null,
             isValidated: false
         };
+        this.editing = null;
     }
 
     init() {
-        this.state.value = this.getModelValue() || '';
+        ReactView.listenModel(this, this.context.model);
     }
 
     getLayout() {
@@ -29,6 +30,10 @@ class ActiveField extends ReactView {
     }
 
     render() {
+        if(!this.editing){
+            this.state.value = this.getModelValue() || '';
+        }
+
         if (this.getLayout() === ActiveForm.LAYOUT_INLINE) {
             return (
                 <span
@@ -284,6 +289,7 @@ class ActiveField extends ReactView {
             return;
         }
 
+        this.editing = false;
         var attribute = this._getAttributeName();
         this.context.model.set(attribute, newValue);
         this.context.model.clearErrors(attribute);
@@ -292,6 +298,10 @@ class ActiveField extends ReactView {
                 isValidated: true
             });
         });
+    }
+
+    _onChange(e){
+        this.editing = true;
     }
 
     // @todo move to helpers
