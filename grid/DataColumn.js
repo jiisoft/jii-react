@@ -112,14 +112,14 @@ class DataColumn extends Column {
                 return this.value.call(null, model, key, index, this);
             }
 
-            if(Jii.app.hasComponent('Formatter')){
+            if(Jii.app.hasComponent('formatter')){
                 return model.isAttributeBoolean(this.value) ? Jii.app.Formatter.asBoolean(model.get(this.value)) : model.get(this.value);
             }
             return model.get(this.value);
         }
 
         if (this.attribute !== null) {
-            if(Jii.app.hasComponent('Formatter')){
+            if(Jii.app.hasComponent('formatter')){
                 return model.isAttributeBoolean(this.attribute) ? Jii.app.formatter.asBoolean(model.get(this.attribute)) : model.get(this.attribute);
             }
             return model.get(this.attribute);
