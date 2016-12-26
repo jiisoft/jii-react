@@ -66,7 +66,7 @@ class Breadcrumbs extends ReactView{
             delete options['url'];
             delete options['urlRule'];
 
-            link = <a {...options} href={'#' + url}>{label}</a>;
+            link = <a {...options} href={this.props.hrefLinkBegin + url}>{label}</a>;
         }
         else {
             link = link['label'];
