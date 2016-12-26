@@ -100,21 +100,28 @@ class DataColumn extends Column {
 
     /**
      * Returns the data cell value.
-     * @param {mixed} model the data model
+     * @param {Model} model the data model
      * @param {mixed} key the key associated with the data model
      * @param {number} index the zero-based index of the data model among the models array returned by [[GridView.dataProvider]].
      * @returns {string} the data cell value
      */
     getDataCellValue(model, key, index) {
+
         if (this.value !== null) {
             if (_isFunction(this.value)) {
                 return this.value.call(null, model, key, index, this);
             }
 
+            if(Jii.app.hasComponent('formatter')){
+                return model.isAttributeBoolean(this.value) ? Jii.app.Formatter.asBoolean(model.get(this.value)) : model.get(this.value);
+            }
             return model.get(this.value);
         }
 
         if (this.attribute !== null) {
+            if(Jii.app.hasComponent('formatter')){
+                return model.isAttributeBoolean(this.attribute) ? Jii.app.formatter.asBoolean(model.get(this.attribute)) : model.get(this.attribute);
+            }
             return model.get(this.attribute);
         }
 

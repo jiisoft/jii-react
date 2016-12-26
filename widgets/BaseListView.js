@@ -6,6 +6,8 @@ var _clone = require('lodash/clone');
 var _filter = require('lodash/filter');
 var ReactView = require('../ReactView');
 var React = require('react');
+var LinkPager = require('../widgets/LinkPager');
+
 class BaseListView extends ReactView {
 
     /**
@@ -86,7 +88,11 @@ class BaseListView extends ReactView {
      * @returns {string} the rendering result
      */
     renderPager() {
-        return ''; // @todo
+        const pagination = this.props.collection.getPagination();
+        if (!pagination || pagination.getPage() == 0 && this.props.collection.length < pagination.getPageSize()) {
+            return '';
+        }
+        return <LinkPager pagination={pagination}/>;
     }
 
     /**
@@ -100,6 +106,7 @@ class BaseListView extends ReactView {
 }
 
 BaseListView.defaultProps = {
+    collection: null,
     options: null,
     pager: null,
     sorter: null,
@@ -116,86 +123,86 @@ BaseListView.defaultProps = {
 }
 
 /**
-         * @alias {Jii.react.widgets.BaseListView.prototype.props}
-         */
+ * @alias {Jii.react.widgets.BaseListView.prototype.props}
+ */
 BaseListView.propTypes = {
 
     /**
-             * @type {Jii.base.Collection}
-             */
+     * @type {Jii.base.Collection}
+     */
     collection: React.PropTypes.object,
 
     /**
-             * @type {object} the HTML attributes for the container tag of the list view.
-             * The "tag" element specifies the tag name of the container element and defaults to "div".
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
+     * @type {object} the HTML attributes for the container tag of the list view.
+     * The "tag" element specifies the tag name of the container element and defaults to "div".
+     * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+     */
     options: React.PropTypes.object,
 
     /**
-             * @type {object} the configuration for the pager widget. By default, [[LinkPager]] will be
-             * used to render the pager. You can use a different widget class by configuring the "class" element.
-             * Note that the widget must support the `pagination` property which will be populated with the
-             * [[\jii\data\DataProvider.pagination|pagination]] value of the [[dataProvider]].
-             */
+     * @type {object} the configuration for the pager widget. By default, [[LinkPager]] will be
+     * used to render the pager. You can use a different widget class by configuring the "class" element.
+     * Note that the widget must support the `pagination` property which will be populated with the
+     * [[\jii\data\DataProvider.pagination|pagination]] value of the [[dataProvider]].
+     */
     pager: React.PropTypes.object,
 
     /**
-             * @type {object} the configuration for the sorter widget. By default, [[LinkSorter]] will be
-             * used to render the sorter. You can use a different widget class by configuring the "class" element.
-             * Note that the widget must support the `sort` property which will be populated with the
-             * [[\jii\data\DataProvider.sort|sort]] value of the [[dataProvider]].
-             */
+     * @type {object} the configuration for the sorter widget. By default, [[LinkSorter]] will be
+     * used to render the sorter. You can use a different widget class by configuring the "class" element.
+     * Note that the widget must support the `sort` property which will be populated with the
+     * [[\jii\data\DataProvider.sort|sort]] value of the [[dataProvider]].
+     */
     sorter: React.PropTypes.object,
 
     /**
-             * @type {string} the HTML content to be displayed as the summary of the list view.
-             * If you do not want to show the summary, you may set it with an empty string.
-             *
-             * The following tokens will be replaced with the corresponding values:
-             *
-             * - `{begin}`: the starting row number (1-based) currently being displayed
-             * - `{end}`: the ending row number (1-based) currently being displayed
-             * - `{count}`: the number of rows currently being displayed
-             * - `{totalCount}`: the total number of rows available
-             * - `{page}`: the page number (1-based) current being displayed
-             * - `{pageCount}`: the number of pages available
-             */
+     * @type {string} the HTML content to be displayed as the summary of the list view.
+     * If you do not want to show the summary, you may set it with an empty string.
+     *
+     * The following tokens will be replaced with the corresponding values:
+     *
+     * - `{begin}`: the starting row number (1-based) currently being displayed
+     * - `{end}`: the ending row number (1-based) currently being displayed
+     * - `{count}`: the number of rows currently being displayed
+     * - `{totalCount}`: the total number of rows available
+     * - `{page}`: the page number (1-based) current being displayed
+     * - `{pageCount}`: the number of pages available
+     */
     summary: React.PropTypes.string,
 
     /**
-             * @type {[]} the HTML attributes for the summary of the list view.
-             * The "tag" element specifies the tag name of the summary element and defaults to "div".
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
+     * @type {[]} the HTML attributes for the summary of the list view.
+     * The "tag" element specifies the tag name of the summary element and defaults to "div".
+     * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+     */
     summaryOptions: React.PropTypes.object,
 
     /**
-             * @type {boolean} whether to show the list view if [[dataProvider]] returns no data.
-             */
+     * @type {boolean} whether to show the list view if [[dataProvider]] returns no data.
+     */
     showOnEmpty: React.PropTypes.bool,
 
     /**
-             * @type {string} the HTML content to be displayed when [[dataProvider]] does not have any data.
-             */
+     * @type {string} the HTML content to be displayed when [[dataProvider]] does not have any data.
+     */
     emptyText: React.PropTypes.string,
 
     /**
-             * @type {[]} the HTML attributes for the emptyText of the list view.
-             * The "tag" element specifies the tag name of the emptyText element and defaults to "div".
-             * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
-             */
+     * @type {[]} the HTML attributes for the emptyText of the list view.
+     * The "tag" element specifies the tag name of the emptyText element and defaults to "div".
+     * @see \jii\helpers\Html.renderTagAttributes() for details on how attributes are being rendered.
+     */
     emptyTextOptions: React.PropTypes.object,
 
     /**
-             * @type {string} the layout that determines how different sections of the list view should be organized.
-             * The following tokens will be replaced with the corresponding section contents:
-             *
-             * - `{summary}`: the summary section. See [[renderSummary()]].
-             * - `{items}`: the list items. See [[renderItems()]].
-             * - `{sorter}`: the sorter. See [[renderSorter()]].
-             * - `{pager}`: the pager. See [[renderPager()]].
-             */
+     * @type {string} the layout that determines how different sections of the list view should be organized.
+     * The following tokens will be replaced with the corresponding section contents:
+     *
+     * - `{summary}`: the summary section. See [[renderSummary()]].
+     * - `{items}`: the list items. See [[renderItems()]].
+     * - `{sorter}`: the sorter. See [[renderSorter()]].
+     * - `{pager}`: the pager. See [[renderPager()]].
+     */
     layout: React.PropTypes.string
 };
 module.exports = BaseListView;

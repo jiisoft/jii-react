@@ -49,6 +49,8 @@ class Input extends ActiveField {
     }
 
     _onChange(e) {
+        super._onChange(e);
+
         let value = e.target.value;
 
         this.setState({
