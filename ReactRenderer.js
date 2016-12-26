@@ -70,7 +70,8 @@ class ReactRenderer extends IRenderer {
         view = Jii.namespace(view);
 
         // Set current layout
-        if (!this.layout || !(this.layout instanceof view)) {
+        // TODO update layout props on change only context
+        if (!this.layout || !(this.layout instanceof view) || params.context !== context) {
             var container = document.getElementById(ReactRenderer.APP_ID_PREFIX + Jii.app.id);
 
             params.context = context;
