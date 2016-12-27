@@ -4,7 +4,7 @@ var Jii = require('jii');
 var _trim = require('lodash/trim');
 var _isFunction = require('lodash/isFunction');
 var _clone = require('lodash/clone');
-var BaseObject = require('jii/base/BaseObject');
+var BaseObject = require('jii/base/Object');
 class Column extends BaseObject {
 
     preInit() {

@@ -1,7 +1,7 @@
 'use strict';
 
 var Jii = require('jii');
-var BaseObject = require('jii/base/BaseObject');
+var BaseObject = require('jii/base/Object');
 var Model = require('jii/base/Model');
 var Collection = require('jii/base/Collection');
 var InvalidParamException = require('jii/exceptions/InvalidParamException');
