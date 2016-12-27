@@ -278,126 +278,124 @@ GridView.defaultProps = Jii.mergeConfigs(BaseListView.defaultProps, {
     showHeader: true,
     showFooter: false,
     showOnEmpty: true,
+    /**
+     * @type {[]} grid column configuration. Each array element represents the configuration
+     * for one particular grid column.
+     */
     columns: {},
     emptyCell: ' ',
     layout: '{summary}\n{items}\n{pager}'
 });
 
 /**
-         * @alias {Jii.react.grid.GridView.prototype.props}
-         */
+ * @alias {Jii.react.grid.GridView.prototype.props}
+ */
 GridView.propTypes = Jii.mergeConfigs(BaseListView.propTypes, {
 
     /**
-             * @type {string} the default data column class if the class name is not explicitly specified when configuring a data column.
-             * Defaults to 'Jii.react.grid.DataColumn'.
-             */
+     * @type {string} the default data column class if the class name is not explicitly specified when configuring a data column.
+     * Defaults to 'Jii.react.grid.DataColumn'.
+     */
     dataColumnClassName: React.PropTypes.string,
 
     /**
-             * @type {string} the caption of the grid table
-             */
+     * @type {string} the caption of the grid table
+     */
     caption: React.PropTypes.string,
 
     /**
-             * @type {object} the HTML attributes for the caption element.
-             */
+     * @type {object} the HTML attributes for the caption element.
+     */
     captionOptions: React.PropTypes.object,
 
     /**
-             * @type {object} the HTML attributes for the grid table element.
-             */
+     * @type {object} the HTML attributes for the grid table element.
+     */
     tableOptions: React.PropTypes.object,
 
     /**
-             * @type {object} the HTML attributes for the container tag of the grid view.
-             * The "tag" element specifies the tag name of the container element and defaults to "div".
-             */
+     * @type {object} the HTML attributes for the container tag of the grid view.
+     * The "tag" element specifies the tag name of the container element and defaults to "div".
+     */
     options: React.PropTypes.object,
 
     /**
-             * @type {object} the HTML attributes for the table header row.
-             */
+     * @type {object} the HTML attributes for the table header row.
+     */
     headerRowOptions: React.PropTypes.object,
 
     /**
-             * @type {object} the HTML attributes for the table footer row.
-             */
+     * @type {object} the HTML attributes for the table footer row.
+     */
     footerRowOptions: React.PropTypes.object,
 
     /**
-             * @type {object|function} the HTML attributes for the table body rows. This can be either an array
-             * specifying the common HTML attributes for all body rows, or an anonymous function that
-             * returns an array of the HTML attributes. The anonymous function will be called once for every
-             * data model returned by [[dataProvider]]. It should have the following signature:
-             *
-             * ```js
-             * function (model, key, index, grid)
-             * ```
-             *
-             * - `model`: the current data model being rendered
-             * - `key`: the key value associated with the current data model
-             * - `index`: the zero-based index of the data model in the model array returned by [[dataProvider]]
-             * - `grid`: the GridView object
-             */
+     * @type {object|function} the HTML attributes for the table body rows. This can be either an array
+     * specifying the common HTML attributes for all body rows, or an anonymous function that
+     * returns an array of the HTML attributes. The anonymous function will be called once for every
+     * data model returned by [[dataProvider]]. It should have the following signature:
+     *
+     * ```js
+     * function (model, key, index, grid)
+     * ```
+     *
+     * - `model`: the current data model being rendered
+     * - `key`: the key value associated with the current data model
+     * - `index`: the zero-based index of the data model in the model array returned by [[dataProvider]]
+     * - `grid`: the GridView object
+     */
     rowOptions: React.PropTypes.object,
 
     /**
-             * @type {function} an anonymous function that is called once BEFORE rendering each data model.
-             * It should have the similar signature as [[rowOptions]]. The return result of the function
-             * will be rendered directly.
-             */
+     * @type {function} an anonymous function that is called once BEFORE rendering each data model.
+     * It should have the similar signature as [[rowOptions]]. The return result of the function
+     * will be rendered directly.
+     */
     beforeRow: React.PropTypes.func,
 
     /**
-             * @type {function} an anonymous function that is called once AFTER rendering each data model.
-             * It should have the similar signature as [[rowOptions]]. The return result of the function
-             * will be rendered directly.
-             */
+     * @type {function} an anonymous function that is called once AFTER rendering each data model.
+     * It should have the similar signature as [[rowOptions]]. The return result of the function
+     * will be rendered directly.
+     */
     afterRow: React.PropTypes.func,
 
     /**
-             * @type {boolean} whether to show the header section of the grid table.
-             */
+     * @type {boolean} whether to show the header section of the grid table.
+     */
     showHeader: React.PropTypes.bool,
 
     /**
-             * @type {boolean} whether to show the footer section of the grid table.
-             */
+     * @type {boolean} whether to show the footer section of the grid table.
+     */
     showFooter: React.PropTypes.bool,
 
     /**
-             * @type {boolean} whether to show the grid view if [[dataProvider]] returns no data.
-             */
+     * @type {boolean} whether to show the grid view if [[dataProvider]] returns no data.
+     */
     showOnEmpty: React.PropTypes.bool,
 
     /**
-             * @type {[]} grid column configuration. Each array element represents the configuration
-             * for one particular grid column.
-             */
-    columns: React.PropTypes.object,
-
-    /**
-             * @type {string} the HTML display when the content of a cell is empty.
-             * This property is used to render cells that have no defined content,
-             * e.g. empty footer or filter cells.
-             *
-             * Note that this is not used by the [[Jii.react.grid.DataColumn]] if a data item is `null`. In that case
-             * the [[\jii\i18n\Formatter.nullDisplay|nullDisplay]] property of the [[formatter]] will
-             * be used to indicate an empty data value.
-             */
+     * @type {string} the HTML display when the content of a cell is empty.
+     * This property is used to render cells that have no defined content,
+     * e.g. empty footer or filter cells.
+     *
+     * Note that this is not used by the [[Jii.react.grid.DataColumn]] if a data item is `null`. In that case
+     * the [[\jii\i18n\Formatter.nullDisplay|nullDisplay]] property of the [[formatter]] will
+     * be used to indicate an empty data value.
+     */
     emptyCell: React.PropTypes.string,
 
     /**
-             * @type {string} the layout that determines how different sections of the list view should be organized.
-             * The following tokens will be replaced with the corresponding section contents:
-             *
-             * - `{summary}`: the summary section. See [[renderSummary()]].
-             * - `{errors}`: the filter model error summary. See [[renderErrors()]].
-             * - `{items}`: the list items. See [[renderItems()]].
-             * - `{sorter}`: the sorter. See [[renderSorter()]].
-             * - `{pager}`: the pager. See [[renderPager()]].
-             */
+     * @type {string} the layout that determines how different sections of the list view should be organized.
+     * The following tokens will be replaced with the corresponding section contents:
+     *
+     * - `{summary}`: the summary section. See [[renderSummary()]].
+     * - `{errors}`: the filter model error summary. See [[renderErrors()]].
+     * - `{items}`: the list items. See [[renderItems()]].
+     * - `{sorter}`: the sorter. See [[renderSorter()]].
+     * - `{pager}`: the pager. See [[renderPager()]].
+     */
     layout: React.PropTypes.string
 });
 module.exports = GridView;
