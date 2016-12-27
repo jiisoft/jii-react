@@ -3,6 +3,7 @@
 var Jii = require('jii');
 var React = require('react');
 var ReactView = require('../ReactView');
+var _clone = require('lodash/clone');
 
 class Breadcrumbs extends ReactView{
 
@@ -13,24 +14,23 @@ class Breadcrumbs extends ReactView{
 
         let links = [];
 
-        if (!this.props.homeLink) {
-            links.push(
-                this.renderItem({
-                    'label': Jii.t('jii', 'Home'),
-                    'url': '/'
-                })
-            );
-        }
-        else {
-            links.push(this.renderItem(this.props.homeLink));
+        if(this.props.homeLink !== false){
+            if (!this.props.homeLink) {
+                links.push(
+                    this.renderItem({
+                        'label': Jii.t('jii', 'Home'),
+                        'url': '/' //TODO: add Jii.app.homeUrl
+                    })
+                );
+            }
+            else {
+                links.push(this.renderItem(this.props.homeLink));
+            }
         }
 
         this.props.links.map((link) =>{
             if (typeof(link) != 'object') {
                 link = {'label': link};
-            }
-            if(link['url']){
-                link['className'] = (link['className'] ? link['className'] : '') + ' active'
             }
             links.push(this.renderItem(link));
         });
@@ -50,7 +50,7 @@ class Breadcrumbs extends ReactView{
         }
 
         if (link['url']) {
-            let options = link;
+            let options = _clone(link);
             let url = link['urlRule'] || link['url'];
 
             if(url[0] != '/'){
@@ -60,7 +60,7 @@ class Breadcrumbs extends ReactView{
                 url += '/';
             }
 
-            const label = link['label'];
+            const label = link['label']; //TODO Html::encode from Yii
             delete options['template'];
             delete options['label'];
             delete options['url'];
