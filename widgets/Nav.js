@@ -5,12 +5,13 @@ var React = require('react');
 var ReactView = require('../ReactView');
 var Dropdown = require('./Dropdown');
 var Html = require('../helpers/Html');
-var String = require('Jii/helpers/String');
+var Request = require('jii/request/client/Request');
+var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
 var _forIn = require('lodash/forIn');
 var _cloneDeep = require('lodash/cloneDeep');
 var _clone = require('lodash/clone');
-var Request = require('jii/request/client/Request');
-var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
+var _trimStart = require('lodash/trimStart');
+var _trimEnd = require('lodash/trimEnd');
 
 /**
  * Nav renders a nav HTML component.
@@ -23,7 +24,7 @@ class Nav extends ReactView
     render() {
         let route = this.props.route;
         if (route === null) {
-            route = String.rtrim(new Request(location).getPathInfo(), '/');
+            route = _trimEnd(new Request(location).getPathInfo(), '/');
         }
 
         let params = this.props.params;
@@ -160,13 +161,13 @@ class Nav extends ReactView
      */
     isItemActive(item, route, params) {
         if (item['url']) {
-            if(typeof(item['url']) == 'string' && String.ltrim(item['url'], ['#', '/']) !== route){
+            if(typeof(item['url']) == 'string' && _trimStart(item['url'], ['#', '/']) !== route){
                 return false;
             }
 
             if(typeof(item['url']) == 'object' && item['url'][0])
             {
-                if (String.ltrim(item['url'][0], ['#', '/']) !== route) {
+                if (_trimStart(item['url'][0], ['#', '/']) !== route) {
                     return false;
                 }
                 delete item['url']['#'];
