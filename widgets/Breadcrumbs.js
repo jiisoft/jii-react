@@ -3,23 +3,24 @@
 var Jii = require('jii');
 var React = require('react');
 var ReactView = require('../ReactView');
-var _clone = require('lodash/clone');
+var Html = require('../helpers/Html');
+var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
+var _cloneDeep = require('lodash/cloneDeep');
 
 class Breadcrumbs extends ReactView{
 
     render(){
-        if (!this.props.links) {
+        if (!this.props.links || !this.props.links.length) {
             return null;
         }
 
         let links = [];
-
         if(this.props.homeLink !== false){
             if (!this.props.homeLink) {
                 links.push(
                     this.renderItem({
                         'label': Jii.t('jii', 'Home'),
-                        'url': '/' //TODO: add Jii.app.homeUrl
+                        'url': Jii.app.getHomeUrl()
                     })
                 );
             }
@@ -28,11 +29,11 @@ class Breadcrumbs extends ReactView{
             }
         }
 
-        this.props.links.map((link) =>{
+        this.props.links.map((link) => {
             if (typeof(link) != 'object') {
                 link = {'label': link};
             }
-            links.push(this.renderItem(link));
+            links.push(this.renderItem(_cloneDeep(link)));
         });
 
         return (
@@ -46,35 +47,24 @@ class Breadcrumbs extends ReactView{
 
     renderItem(link){
         if(!link['label']){
-            return null;
+            throw new InvalidConfigException('The "label" element is required for each link.');
         }
 
         if (link['url']) {
-            let options = _clone(link);
-            let url = link['urlRule'] || link['url'];
-
-            if(url[0] != '/'){
-                url = '/' + url;
-            }
-            if(url[url.length - 1] != '/'){
-                url += '/';
-            }
-
-            const label = link['label']; //TODO Html::encode from Yii
+            let options = link;
+            let url = link['url'];
+            const label = link['label'];
             delete options['template'];
             delete options['label'];
             delete options['url'];
-            delete options['urlRule'];
 
-            link = <a {...options} href={this.props.hrefLinkBegin + url}>{label}</a>;
+            link = Html.a(label, url, options);
         }
         else {
             link = link['label'];
         }
 
-        return (
-            link
-        );
+        return link;
     }
 }
 Breadcrumbs.defaultProps = {
@@ -100,9 +90,5 @@ Breadcrumbs.defaultProps = {
      * ```
      */
     links: [],
-    /**
-     * {string} this the text is inserted at the beginning of the reference
-     */
-    hrefLinkBegin: ''
 };
 module.exports = Breadcrumbs;
