@@ -11,17 +11,17 @@ class LinkPager extends ReactView{
         const links = this.props.pagination.getLinks();
 
         return (
-            <ul className="pagination">
-                {links.prev &&
-                <li className="prev">
-                    <a href={'#' + links.prev}>«</a>
+            <ul className='pagination'>
+                {links.self &&
+                <li className={'prev ' + (links.prev ? '' : 'disabled')}>
+                    <a href={links.prev ? ('#' + links.prev) : 'javascript:void(0)'}>«</a>
                 </li>
                 }
 
                 {this.renderPageButtons()}
 
                 {links.next &&
-                <li className="next">
+                <li className='next'>
                     <a href={'#' + links.next}>»</a>
                 </li>
                 }
