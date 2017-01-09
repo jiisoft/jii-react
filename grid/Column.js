@@ -1,10 +1,10 @@
 'use strict';
 
-var Jii = require('jii');
-var _trim = require('lodash/trim');
-var _isFunction = require('lodash/isFunction');
-var _clone = require('lodash/clone');
-var BaseObject = require('jii/base/BaseObject');
+const Jii = require('jii');
+const _trim = require('lodash/trim');
+const _isFunction = require('lodash/isFunction');
+const _clone = require('lodash/clone');
+const BaseObject = require('jii/base/BaseObject');
 class Column extends BaseObject {
 
     preInit() {

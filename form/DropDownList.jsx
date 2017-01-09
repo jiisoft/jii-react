@@ -1,13 +1,13 @@
 'use strict';
 
-var Jii = require('jii');
-var _isObject = require('lodash/isObject');
-var _map = require('lodash/map');
-var _each = require('lodash/each');
-var _has = require('lodash/has');
-var _isString = require('lodash/isString');
-var ActiveField = require('./ActiveField.jsx');
-var React = require('react');
+const Jii = require('jii');
+const _isObject = require('lodash/isObject');
+const _map = require('lodash/map');
+const _each = require('lodash/each');
+const _has = require('lodash/has');
+const _isString = require('lodash/isString');
+const ActiveField = require('./ActiveField.jsx');
+const React = require('react');
 class DropDownList extends ActiveField {
 
     static normalizeItems(items) {

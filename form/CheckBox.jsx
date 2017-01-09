@@ -1,8 +1,8 @@
 'use strict';
 
-var Jii = require('jii');
-var ActiveField = require('./ActiveField.jsx');
-var React = require('react');
+const Jii = require('jii');
+const ActiveField = require('./ActiveField.jsx');
+const React = require('react');
 class CheckBox extends ActiveField {
 
     init() {

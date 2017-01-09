@@ -1,14 +1,14 @@
 'use strict';
 
-var Jii = require('jii');
-var ActiveForm = require('./ActiveForm.jsx');
-var NotSupportedException = require('jii/exceptions/NotSupportedException');
-var InvalidParamException = require('jii/exceptions/InvalidParamException');
-var _isEmpty = require('lodash/isEmpty');
-var _indexOf = require('lodash/indexOf');
-var _isObject = require('lodash/isObject');
-var ReactView = require('../ReactView');
-var React = require('react');
+const Jii = require('jii');
+const ActiveForm = require('./ActiveForm.jsx');
+const NotSupportedException = require('jii/exceptions/NotSupportedException');
+const InvalidParamException = require('jii/exceptions/InvalidParamException');
+const _isEmpty = require('lodash/isEmpty');
+const _indexOf = require('lodash/indexOf');
+const _isObject = require('lodash/isObject');
+const ReactView = require('../ReactView');
+const React = require('react');
 
 class ActiveField extends ReactView {
 

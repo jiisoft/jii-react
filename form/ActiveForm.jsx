@@ -1,8 +1,8 @@
 'use strict';
 
-var Jii = require('jii');
-var ReactView = require('../ReactView');
-var React = require('react');
+const Jii = require('jii');
+const ReactView = require('../ReactView');
+const React = require('react');
 class ActiveForm extends ReactView {
 
     init() {

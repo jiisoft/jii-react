@@ -4,13 +4,13 @@
  */
 'use strict';
 
-var Jii = require('jii');
-var WebView = require('../../WebView');
-var ReactRenderer = require('../ReactRenderer');
-var _values = require('lodash/values');
-var IRenderer = require('../../IRenderer');
-var React = require('react');
-var ReactDOMServer = require('react-dom/server');
+const Jii = require('jii');
+const WebView = require('../../WebView');
+const ReactRenderer = require('../ReactRenderer');
+const _values = require('lodash/values');
+const IRenderer = require('../../IRenderer');
+const React = require('react');
+const ReactDOMServer = require('react-dom/server');
 class ReactServerRenderer extends IRenderer {
 
     preInit() {

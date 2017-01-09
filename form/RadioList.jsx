@@ -1,11 +1,11 @@
 'use strict';
 
-var Jii = require('jii');
-var _isObject = require('lodash/isObject');
-var _map = require('lodash/map');
-var ActiveField = require('./ActiveField.jsx');
-var React = require('react');
-var DropDownList = require('./DropDownList.jsx');
+const Jii = require('jii');
+const _isObject = require('lodash/isObject');
+const _map = require('lodash/map');
+const ActiveField = require('./ActiveField.jsx');
+const React = require('react');
+const DropDownList = require('./DropDownList.jsx');
 class RadioList extends ActiveField {
 
     init() {

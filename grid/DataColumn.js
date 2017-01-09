@@ -1,11 +1,11 @@
 'use strict';
 
-var Jii = require('jii');
-var Collection = require('jii/base/Collection');
-var Model = require('jii/base/Model');
-var _isFunction = require('lodash/isFunction');
-var _startCase = require('lodash/startCase');
-var Column = require('./Column');
+const Jii = require('jii');
+const Collection = require('jii/base/Collection');
+const Model = require('jii/base/Model');
+const _isFunction = require('lodash/isFunction');
+const _startCase = require('lodash/startCase');
+const Column = require('./Column');
 class DataColumn extends Column {
 
     preInit() {

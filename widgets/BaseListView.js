@@ -1,12 +1,12 @@
 'use strict';
 
-var Jii = require('jii');
-var _map = require('lodash/map');
-var _clone = require('lodash/clone');
-var _filter = require('lodash/filter');
-var ReactView = require('../ReactView');
-var React = require('react');
-var LinkPager = require('../widgets/LinkPager');
+const Jii = require('jii');
+const _map = require('lodash/map');
+const _clone = require('lodash/clone');
+const _filter = require('lodash/filter');
+const ReactView = require('../ReactView');
+const React = require('react');
+const LinkPager = require('../widgets/LinkPager');
 
 class BaseListView extends ReactView {
 

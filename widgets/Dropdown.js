@@ -1,13 +1,13 @@
 'use strict';
 
-var Jii = require('jii');
-var React = require('react');
-var ReactView = require('../ReactView');
-var Html = require('../helpers/Html');
-var _clone = require('lodash/clone');
-var _forEach = require('lodash/forEach');
-var _merge = require('lodash/merge');
-var InvalidParamException = require('jii/exceptions/InvalidParamException');
+const Jii = require('jii');
+const React = require('react');
+const ReactView = require('../ReactView');
+const Html = require('../helpers/Html');
+const _clone = require('lodash/clone');
+const _forEach = require('lodash/forEach');
+const _merge = require('lodash/merge');
+const InvalidParamException = require('jii/exceptions/InvalidParamException');
 
 class Dropdown extends ReactView{
 

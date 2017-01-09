@@ -1,8 +1,8 @@
 'use strict';
 
-var Jii = require('jii');
-var React = require('react');
-var ReactView = require('../ReactView');
+const Jii = require('jii');
+const React = require('react');
+const ReactView = require('../ReactView');
 
 class LinkPager extends ReactView{
 

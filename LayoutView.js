@@ -1,7 +1,7 @@
 'use strict';
 
-var Jii = require('jii');
-var ReactView = require('./ReactView');
+const Jii = require('jii');
+const ReactView = require('./ReactView');
 class LayoutView extends ReactView {
 
     preInit() {
