@@ -7,7 +7,7 @@ var Html = require('../helpers/Html');
 var _clone = require('lodash/clone');
 var _forEach = require('lodash/forEach');
 var _merge = require('lodash/merge');
-var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
+var InvalidParamException = require('jii/exceptions/InvalidParamException');
 
 class Dropdown extends ReactView{
 
@@ -23,7 +23,6 @@ class Dropdown extends ReactView{
 
         let options = _clone(this.props.options);
         Html.addCssClass(options, {'widget': 'dropdown-menu'});
-
         return this.renderItems(this.props.items, options, submenuOptions);
     }
 
@@ -45,14 +44,14 @@ class Dropdown extends ReactView{
     }
 
     renderItem(item, options, submenuOptionsGlobal, index){
-        if (item['visible']) {
+        if (item['visible'] == false) {
             return null;
         }
         if (typeof(item) == 'string') {
             return item;
         }
         if (!item['label']) {
-            throw new InvalidConfigException("The 'label' option is required.");
+            throw new InvalidParamException("The 'label' option is required.");
         }
 
         let itemOptions = item['options'] || [];
