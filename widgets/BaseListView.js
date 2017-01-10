@@ -22,6 +22,14 @@ class BaseListView extends ReactView {
      */
     init() {
         this.listenModel(this.props.collection);
+
+        //for update Pager if change only totalCount
+        if(this.props.collection._fetchCallbacks){
+            if(!this.props.collection._fetchCallbacks || !this.props.collection._fetchCallbacks.length){
+                this.props.collection._fetchCallbacks = [];
+            }
+            this.props.collection._fetchCallbacks.push(() => this.forceUpdate());
+        }
     }
 
     /**
@@ -96,6 +104,7 @@ class BaseListView extends ReactView {
 
         return (
             <LinkPager
+                dataProvider={this.props.collection}
                 pagination={pagination}
                 changePage={typeof(this.props.collection.fetch) == 'function'
                     ? this.props.collection.fetch.bind(this.props.collection)
