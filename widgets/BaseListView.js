@@ -23,7 +23,7 @@ class BaseListView extends ReactView {
     init() {
         this.listenModel(this.props.collection);
 
-        //for update Pager if change only totalCount
+        //todo: for update Pager if change only totalCount
         if(this.props.collection._fetchCallbacks){
             if(!this.props.collection._fetchCallbacks || !this.props.collection._fetchCallbacks.length){
                 this.props.collection._fetchCallbacks = [];
