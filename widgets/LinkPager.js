@@ -3,6 +3,7 @@
 var Jii = require('jii');
 var React = require('react');
 var ReactView = require('../ReactView');
+var _noop = require('lodash/noop');
 
 class LinkPager extends ReactView{
 
@@ -14,7 +15,16 @@ class LinkPager extends ReactView{
             <ul className='pagination'>
                 {links.self &&
                 <li className={'prev ' + (links.prev ? '' : 'disabled')}>
-                    <a href={links.prev ? ('#' + links.prev) : 'javascript:void(0)'}>«</a>
+                    {this.props.noLink
+                        ? <a href='javascript:void(0)'
+                             onClick={() => {
+                                 if(links.prev){
+                                     this.props.pagination.setPage(this.props.pagination.getPage() - 1);
+                                     this.props.changePage();
+                                 }
+                             }}>«</a>
+                        : <a href={links.prev ? ('#' + links.prev) : 'javascript:void(0)'}>«</a>
+                    }
                 </li>
                 }
 
@@ -22,7 +32,14 @@ class LinkPager extends ReactView{
 
                 {links.next &&
                 <li className='next'>
-                    <a href={'#' + links.next}>»</a>
+                    {this.props.noLink
+                        ? <a href='javascript:void(0)'
+                             onClick={() => {
+                                 this.props.pagination.setPage(this.props.pagination.getPage() + 1);
+                                 this.props.changePage();
+                             }}>»</a>
+                        : <a href={'#' + links.next}>»</a>
+                    }
                 </li>
                 }
             </ul>
@@ -37,9 +54,18 @@ class LinkPager extends ReactView{
         for(let indexPage = rangePages[0]; indexPage <= rangePages[1]; indexPage++){
             buttons.push(
                 <li key={indexPage} className={indexPage == currentPage ? 'active' : ''}>
-                    <a href={'#' + this.props.pagination.createUrl(indexPage)}>
-                        {indexPage + 1}
-                    </a>
+
+                    {this.props.noLink
+                        ? <a href='javascript:void(0)'
+                             onClick={() => {
+                                 this.props.pagination.setPage(indexPage);
+                                 this.props.changePage();
+                             }}>{indexPage + 1}</a>
+                        : <a href={'#' + this.props.pagination.createUrl(indexPage)}>
+                             {indexPage + 1}
+                          </a>
+                    }
+
                 </li>
             );
         }
@@ -74,6 +100,14 @@ LinkPager.defaultProps = {
     /**
      * {integer} maximum number of page buttons that can be displayed. Defaults to 10.
      */
-    maxButtonCount: 10
+    maxButtonCount: 10,
+    /**
+     * {boolean} if needed change page without change url
+     */
+    noLink: false,
+    /**
+     * {function} if noLink = true
+     */
+    changePage: _noop
 };
 module.exports = LinkPager;
