@@ -104,7 +104,6 @@ class BaseListView extends ReactView {
 
         return (
             <LinkPager
-                dataProvider={this.props.collection}
                 pagination={pagination}
                 changePage={typeof(this.props.collection.fetch) == 'function'
                     ? this.props.collection.fetch.bind(this.props.collection)
