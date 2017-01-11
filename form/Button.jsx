@@ -1,9 +1,9 @@
 'use strict';
 
-var Jii = require('jii');
-var ActiveForm = require('./ActiveForm.jsx');
-var ReactView = require('../ReactView');
-var React = require('react');
+const Jii = require('jii');
+const ActiveForm = require('./ActiveForm.jsx');
+const ReactView = require('../ReactView');
+const React = require('react');
 class Button extends ReactView {
 
     getLayout() {

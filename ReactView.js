@@ -1,15 +1,15 @@
 'use strict';
 
-var Jii = require('jii');
-var BaseObject = require('jii/base/BaseObject');
-var Model = require('jii/base/Model');
-var Collection = require('jii/base/Collection');
-var InvalidParamException = require('jii/exceptions/InvalidParamException');
-var _isFunction = require('lodash/isFunction');
-var _uniqueId = require('lodash/uniqueId');
-var _each = require('lodash/each');
-var _extend = require('lodash/extend');
-var React = require('react');
+const Jii = require('jii');
+const BaseObject = require('jii/base/BaseObject');
+const Model = require('jii/base/Model');
+const Collection = require('jii/base/Collection');
+const InvalidParamException = require('jii/exceptions/InvalidParamException');
+const _isFunction = require('lodash/isFunction');
+const _uniqueId = require('lodash/uniqueId');
+const _each = require('lodash/each');
+const _extend = require('lodash/extend');
+const React = require('react');
 class ReactView extends React.Component {
 
     constructor() {

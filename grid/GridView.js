@@ -1,22 +1,22 @@
 'use strict';
 
-var Jii = require('jii');
-var DataColumn = require('./DataColumn');
-var Model = require('jii/base/Model');
-var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
-var _isEmpty = require('lodash/isEmpty');
-var _isFunction = require('lodash/isFunction');
-var _isObject = require('lodash/isObject');
-var _isString = require('lodash/isString');
-var _filter = require('lodash/filter');
-var _each = require('lodash/each');
-var _map = require('lodash/map');
-var _size = require('lodash/size');
-var _clone = require('lodash/clone');
-var _extend = require('lodash/extend');
-var _keys = require('lodash/keys');
-var BaseListView = require('../widgets/BaseListView');
-var React = require('react');
+const Jii = require('jii');
+const DataColumn = require('./DataColumn');
+const Model = require('jii/base/Model');
+const InvalidConfigException = require('jii/exceptions/InvalidConfigException');
+const _isEmpty = require('lodash/isEmpty');
+const _isFunction = require('lodash/isFunction');
+const _isObject = require('lodash/isObject');
+const _isString = require('lodash/isString');
+const _filter = require('lodash/filter');
+const _each = require('lodash/each');
+const _map = require('lodash/map');
+const _size = require('lodash/size');
+const _clone = require('lodash/clone');
+const _extend = require('lodash/extend');
+const _keys = require('lodash/keys');
+const BaseListView = require('../widgets/BaseListView');
+const React = require('react');
 class GridView extends BaseListView {
 
     preInit() {

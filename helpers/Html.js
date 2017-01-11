@@ -1,9 +1,9 @@
 'use strict';
 
-var _forIn = require('lodash/forIn');
-var _uniq = require('lodash/uniq');
-var _difference = require('lodash/difference');
-var _values = require('lodash/values');
+const _forIn = require('lodash/forIn');
+const _uniq = require('lodash/uniq');
+const _difference = require('lodash/difference');
+const _values = require('lodash/values');
 
 class Html{
 

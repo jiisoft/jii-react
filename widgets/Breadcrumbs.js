@@ -1,11 +1,11 @@
 'use strict';
 
-var Jii = require('jii');
-var React = require('react');
-var ReactView = require('../ReactView');
-var Html = require('../helpers/Html');
-var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
-var _cloneDeep = require('lodash/cloneDeep');
+const Jii = require('jii');
+const React = require('react');
+const ReactView = require('../ReactView');
+const Html = require('../helpers/Html');
+const InvalidConfigException = require('jii/exceptions/InvalidConfigException');
+const _cloneDeep = require('lodash/cloneDeep');
 
 class Breadcrumbs extends ReactView{
 

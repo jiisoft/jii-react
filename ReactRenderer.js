@@ -4,9 +4,9 @@
  */
 'use strict';
 
-var Jii = require('jii');
-var React = require('react');
-var ReactDOM = require('react-dom');
+const Jii = require('jii');
+const React = require('react');
+const ReactDOM = require('react-dom');
 // Set React variable as global for compiled code
 if (typeof global !== 'undefined') {
     global.React = React;
@@ -15,8 +15,8 @@ if (typeof window !== 'undefined') {
     window.React = React;
     window.ReactDOM = ReactDOM;
 }
-var ReactView = require('./ReactView');
-var IRenderer = require('jii/view/IRenderer');
+const ReactView = require('./ReactView');
+const IRenderer = require('jii/view/IRenderer');
 class ReactRenderer extends IRenderer {
 
     preInit() {

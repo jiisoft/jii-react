@@ -1,17 +1,17 @@
 'use strict';
 
-var Jii = require('jii');
-var React = require('react');
-var ReactView = require('../ReactView');
-var Dropdown = require('./Dropdown');
-var Html = require('../helpers/Html');
-var Request = require('jii/request/client/Request');
-var InvalidConfigException = require('jii/exceptions/InvalidConfigException');
-var _forIn = require('lodash/forIn');
-var _cloneDeep = require('lodash/cloneDeep');
-var _clone = require('lodash/clone');
-var _trimStart = require('lodash/trimStart');
-var _trimEnd = require('lodash/trimEnd');
+const Jii = require('jii');
+const React = require('react');
+const ReactView = require('../ReactView');
+const Dropdown = require('./Dropdown');
+const Html = require('../helpers/Html');
+const Request = require('jii/request/client/Request');
+const InvalidConfigException = require('jii/exceptions/InvalidConfigException');
+const _forIn = require('lodash/forIn');
+const _cloneDeep = require('lodash/cloneDeep');
+const _clone = require('lodash/clone');
+const _trimStart = require('lodash/trimStart');
+const _trimEnd = require('lodash/trimEnd');
 
 /**
  * Nav renders a nav HTML component.

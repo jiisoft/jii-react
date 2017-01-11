@@ -1,11 +1,11 @@
 'use strict';
 
-var Jii = require('jii');
-var React = require('react');
-var ReactView = require('../ReactView');
-var Html = require('../helpers/Html');
-var _merge = require('lodash/merge');
-var _clone = require('lodash/clone');
+const Jii = require('jii');
+const React = require('react');
+const ReactView = require('../ReactView');
+const Html = require('../helpers/Html');
+const _merge = require('lodash/merge');
+const _clone = require('lodash/clone');
 
 class NavBar extends ReactView
 {

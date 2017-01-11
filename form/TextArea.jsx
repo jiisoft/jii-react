@@ -1,7 +1,7 @@
 'use strict';
 
-var Jii = require('jii');
-var ActiveField = require('./ActiveField.jsx');
+const Jii = require('jii');
+const ActiveField = require('./ActiveField.jsx');
 class TextArea extends ActiveField {
 
     init() {

@@ -1,16 +1,16 @@
 'use strict';
 
-var Jii = require('jii');
-var _isObject = require('lodash/isObject');
-var _isString = require('lodash/isString');
-var _has = require('lodash/has');
-var _indexOf = require('lodash/indexOf');
-var _map = require('lodash/map');
-var _filter = require('lodash/filter');
-var _uniq = require('lodash/uniq');
-var ActiveField = require('./ActiveField.jsx');
-var React = require('react');
-var DropDownList = require('./DropDownList.jsx');
+const Jii = require('jii');
+const _isObject = require('lodash/isObject');
+const _isString = require('lodash/isString');
+const _has = require('lodash/has');
+const _indexOf = require('lodash/indexOf');
+const _map = require('lodash/map');
+const _filter = require('lodash/filter');
+const _uniq = require('lodash/uniq');
+const ActiveField = require('./ActiveField.jsx');
+const React = require('react');
+const DropDownList = require('./DropDownList.jsx');
 class CheckBoxList extends ActiveField {
 
     init() {
