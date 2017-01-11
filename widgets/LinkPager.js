@@ -8,33 +8,29 @@ var _noop = require('lodash/noop');
 
 class LinkPager extends ReactView{
 
+    init(){
+        this._forceUpdate = this._forceUpdate.bind(this);
+    }
+
     /**
      * dataProvider.fetch() [For noLink = true]
      */
-    fetch(){
+    _fetch(){
         if(typeof(this.props.collection.fetch) == 'function'){
             this.props.collection.fetch();
         }
     }
 
-    /**
-     * [For use in events with arguments, so as not to cause incorrect parent.forceUpdate]
-     * @param [argument] - not use
-     */
-    forceUpdate(argument) {
+    _forceUpdate() {
         super.forceUpdate.apply(this);
     }
 
     componentDidMount() {
         //update widget after fetch collection (listen model not call update widget, if models don't have changed -> but widget need update if changed totalCount)
-        if(this.props.collection && typeof(this.props.collection.on) == 'function') {
-            this.props.collection.on(DataProvider.EVENT_AFTER_FETCH, this.forceUpdate);
-        }
+        this.props.collection.on(DataProvider.EVENT_AFTER_FETCH, this._forceUpdate);
     }
     componentWillUnmount() {
-        if(this.props.collection && typeof(this.props.collection.on) == 'function') {
-            this.props.collection.off(DataProvider.EVENT_AFTER_FETCH, this.forceUpdate);
-        }
+        this.props.collection.off(DataProvider.EVENT_AFTER_FETCH, this._forceUpdate);
     }
 
     render(){
@@ -54,7 +50,7 @@ class LinkPager extends ReactView{
                              onClick={() => {
                                  if(links.prev){
                                      pagination.setPage(pagination.getPage() - 1);
-                                     this.fetch();
+                                     this._fetch();
                                  }
                              }}>«</a>
                         : <a href={links.prev ? ('#' + links.prev) : 'javascript:void(0)'}>«</a>
@@ -70,7 +66,7 @@ class LinkPager extends ReactView{
                         ? <a href='javascript:void(0)'
                              onClick={() => {
                                  pagination.setPage(pagination.getPage() + 1);
-                                 this.fetch();
+                                 this._fetch();
                              }}>»</a>
                         : <a href={'#' + links.next}>»</a>
                     }
@@ -93,7 +89,7 @@ class LinkPager extends ReactView{
                         ? <a href='javascript:void(0)'
                              onClick={() => {
                                  pagination.setPage(indexPage);
-                                 this.fetch();
+                                 this._fetch();
                              }}>{indexPage + 1}</a>
                         : <a href={'#' + pagination.createUrl(indexPage)}>
                         {indexPage + 1}
