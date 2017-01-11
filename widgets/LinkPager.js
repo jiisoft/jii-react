@@ -3,7 +3,7 @@
 const Jii = require('jii');
 const React = require('react');
 const ReactView = require('../ReactView');
-var _noop = require('lodash/noop');
+const _noop = require('lodash/noop');
 
 class LinkPager extends ReactView{
 
