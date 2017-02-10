@@ -1,12 +1,13 @@
 'use strict';
 
-const Jii = require('jii');
-const _map = require('lodash/map');
-const _clone = require('lodash/clone');
-const _filter = require('lodash/filter');
-const ReactView = require('../ReactView');
-const React = require('react');
-const LinkPager = require('../widgets/LinkPager');
+var Jii = require('jii');
+var _map = require('lodash/map');
+var _clone = require('lodash/clone');
+var _filter = require('lodash/filter');
+var _noop = require('lodash/noop');
+var ReactView = require('../ReactView');
+var React = require('react');
+var LinkPager = require('../widgets/LinkPager');
 
 class BaseListView extends ReactView {
 
@@ -89,10 +90,16 @@ class BaseListView extends ReactView {
      */
     renderPager() {
         const pagination = this.props.collection.getPagination();
-        if (!pagination || pagination.getPage() == 0 && this.props.collection.length < pagination.getPageSize()) {
+        if (!pagination || pagination.getPageCount() < 2 || isNaN(pagination.getPageCount())) {
             return '';
         }
-        return <LinkPager pagination={pagination}/>;
+
+        return (
+            <LinkPager
+                collection={this.props.collection}
+                {...this.props.pagerOptions}
+            />
+        );
     }
 
     /**
@@ -109,6 +116,7 @@ BaseListView.defaultProps = {
     collection: null,
     options: null,
     pager: null,
+    pagerOptions: {},
     sorter: null,
     summary: null,
     summaryOptions: {

@@ -120,6 +120,9 @@ class DetailView extends ReactView {
                         ? this.props.model.get(attributeName)
                         : this.props.model[attributeName];
                 }
+                else if(typeof(attribute['value']) == 'function'){
+                    attribute['value'] = attribute['value'](this.props.model, attributeName);
+                }
             }
             else if (!attribute['label'] || !('value' in attribute)) {
                 throw new InvalidConfigException('The attribute configuration requires the "attribute" element to determine the value and display label.');

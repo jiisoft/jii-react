@@ -1,45 +1,101 @@
 'use strict';
 
-const Jii = require('jii');
-const React = require('react');
-const ReactView = require('../ReactView');
+var Jii = require('jii');
+var React = require('react');
+var ReactView = require('../ReactView');
+var DataProvider = require('jii/data/DataProvider');
+var _noop = require('lodash/noop');
 
 class LinkPager extends ReactView{
 
+    init(){
+        this._forceUpdate = this._forceUpdate.bind(this);
+    }
+
+    /**
+     * dataProvider.fetch() [For noLink = true]
+     */
+    _fetch(){
+        if(typeof(this.props.collection.fetch) == 'function'){
+            this.props.collection.fetch();
+        }
+    }
+
+    _forceUpdate() {
+        super.forceUpdate.apply(this);
+    }
+
+    componentDidMount() {
+        //update widget after fetch collection (listen model not call update widget, if models don't have changed -> but widget need update if changed totalCount)
+        this.props.collection.on(DataProvider.EVENT_AFTER_FETCH, this._forceUpdate);
+    }
+    componentWillUnmount() {
+        this.props.collection.off(DataProvider.EVENT_AFTER_FETCH, this._forceUpdate);
+    }
 
     render(){
-        const links = this.props.pagination.getLinks();
+        const pagination = this.props.collection.getPagination();
+        const links = pagination.getLinks();
+
+        if(!links.self || Object.keys(links).length < 2) {
+            return null;
+        }
 
         return (
             <ul className='pagination'>
                 {links.self &&
                 <li className={'prev ' + (links.prev ? '' : 'disabled')}>
-                    <a href={links.prev ? ('#' + links.prev) : 'javascript:void(0)'}>«</a>
+                    {this.props.noLink
+                        ? <a href='javascript:void(0)'
+                             onClick={() => {
+                                 if(links.prev){
+                                     pagination.setPage(pagination.getPage() - 1);
+                                     this._fetch();
+                                 }
+                             }}>«</a>
+                        : <a href={links.prev ? ('#' + links.prev) : 'javascript:void(0)'}>«</a>
+                    }
                 </li>
                 }
 
-                {this.renderPageButtons()}
+                {this.renderPageButtons(pagination)}
 
                 {links.next &&
                 <li className='next'>
-                    <a href={'#' + links.next}>»</a>
+                    {this.props.noLink
+                        ? <a href='javascript:void(0)'
+                             onClick={() => {
+                                 pagination.setPage(pagination.getPage() + 1);
+                                 this._fetch();
+                             }}>»</a>
+                        : <a href={'#' + links.next}>»</a>
+                    }
                 </li>
                 }
             </ul>
         );
     }
 
-    renderPageButtons(){
-        const rangePages = this.getPageRange();
-        const currentPage = this.props.pagination.getPage();
+    renderPageButtons(pagination){
+        const rangePages = this.getPageRange(pagination);
+        const currentPage = pagination.getPage();
 
         let buttons = [];
         for(let indexPage = rangePages[0]; indexPage <= rangePages[1]; indexPage++){
             buttons.push(
                 <li key={indexPage} className={indexPage == currentPage ? 'active' : ''}>
-                    <a href={'#' + this.props.pagination.createUrl(indexPage)}>
+
+                    {this.props.noLink
+                        ? <a href='javascript:void(0)'
+                             onClick={() => {
+                                 pagination.setPage(indexPage);
+                                 this._fetch();
+                             }}>{indexPage + 1}</a>
+                        : <a href={'#' + pagination.createUrl(indexPage)}>
                         {indexPage + 1}
                     </a>
+                    }
+
                 </li>
             );
         }
@@ -50,9 +106,9 @@ class LinkPager extends ReactView{
     /**
      * @return {[]} the begin and end pages that need to be displayed.
      */
-    getPageRange() {
-        const currentPage = this.props.pagination.getPage();
-        const pageCount = this.props.pagination.getPageCount();
+    getPageRange(pagination) {
+        const currentPage = pagination.getPage();
+        const pageCount = pagination.getPageCount();
 
         let beginPage = Math.max(0, currentPage - parseInt(this.props.maxButtonCount / 2));
         let endPage = beginPage + this.props.maxButtonCount - 1;
@@ -67,13 +123,17 @@ class LinkPager extends ReactView{
 }
 LinkPager.defaultProps = {
     /**
-     * {Pagination} the pagination object that this pager is associated with.
+     * {Collection}
      * You must set this property in order to make LinkPager work.
      */
-    pagination: null,
+    collection: null,
     /**
      * {integer} maximum number of page buttons that can be displayed. Defaults to 10.
      */
-    maxButtonCount: 10
+    maxButtonCount: 10,
+    /**
+     * {boolean} if needed change page without change url
+     */
+    noLink: false,
 };
 module.exports = LinkPager;
