@@ -104,7 +104,7 @@ NavBar.defaultProps = {
     /**
      * @var {array|string|boolean} url the URL for the brand's hyperlink tag.
      * will be used for the 'href' attribute of the brand link. Default value is false that means
-     * [[Jii.app.homeUrl]] will be used.
+     * [[homeUrl]] will be used.
      * You may set it to `null` if you want to have no link at all.
      */
     brandUrl: false,

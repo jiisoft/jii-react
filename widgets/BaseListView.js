@@ -123,12 +123,12 @@ BaseListView.defaultProps = {
 }
 
 /**
- * @alias {Jii.react.widgets.BaseListView.prototype.props}
+ * @alias {props}
  */
 BaseListView.propTypes = {
 
     /**
-     * @type {Jii.base.Collection}
+     * @type {Collection}
      */
     collection: React.PropTypes.object,
 

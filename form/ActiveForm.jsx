@@ -73,7 +73,7 @@ ActiveForm.defaultProps = {
 };
 
 /**
-         * @alias {Jii.react.form.ActiveForm.prototype.props}
+         * @alias {props}
          */
 ActiveForm.propTypes = {
 

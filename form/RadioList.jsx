@@ -69,7 +69,7 @@ RadioList.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
 });
 
 /**
-         * @alias {Jii.react.form.RadioList.prototype.props}
+         * @alias {props}
          */
 RadioList.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
 

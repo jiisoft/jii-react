@@ -55,7 +55,7 @@ class Column extends BaseObject {
      */
         this.header = null;
         /**
-     * @type {jii.grid.GridView} the grid view object that owns this column.
+     * @type {GridView} the grid view object that owns this column.
      */
         this.grid = null;
         super.preInit(...arguments);

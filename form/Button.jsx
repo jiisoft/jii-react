@@ -64,7 +64,7 @@ Button.defaultProps = {
 }
 
 /**
-         * @alias {Jii.react.form.Button.prototype.props}
+         * @alias {props}
          */
 Button.propTypes = {
 
@@ -78,12 +78,12 @@ Button.propTypes = {
 };
 
 /**
-         * @alias {Jii.react.form.Button.prototype.context}
+         * @alias {context}
          */
 Button.contextTypes = {
 
     /**
-             * @type {Jii.react.form.ActiveForm}
+             * @type {ActiveForm}
              */
     form: React.PropTypes.object.isRequired,
 

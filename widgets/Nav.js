@@ -29,7 +29,7 @@ class Nav extends ReactView
 
         let params = this.props.params;
         if (params === null) {
-            //params = Jii.app.request.getQueryParams(); //TODO
+            //params = getQueryParams(); //TODO
         }
 
         let options = this.props.options;

@@ -22,10 +22,10 @@ class ReactServerRenderer extends IRenderer {
     /**
      *
      * @param {*} view
-     * @param {Jii.base.Context} context
+     * @param {Context} context
      * @param {object} params
-     * @param {Jii.base.Controller} controller
-     * @param {Jii.view.WebView} webView
+     * @param {Controller} controller
+     * @param {WebView} webView
      * @returns {*}
      */
     render(view, context, params, controller, webView) {
@@ -36,10 +36,10 @@ class ReactServerRenderer extends IRenderer {
     /**
      *
      * @param {*} view
-     * @param {Jii.base.Context} context
+     * @param {Context} context
      * @param {object} params
-     * @param {Jii.base.Controller} controller
-     * @param {Jii.view.WebView} webView
+     * @param {Controller} controller
+     * @param {WebView} webView
      * @returns {*}
      */
     renderLayout(view, context, params, controller, webView) {

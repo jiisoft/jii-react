@@ -84,7 +84,7 @@ DropDownList.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
 });
 
 /**
-         * @alias {Jii.react.form.DropDownList.prototype.props}
+         * @alias {props}
          */
 DropDownList.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
 

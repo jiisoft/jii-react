@@ -68,7 +68,7 @@ Input.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
 });
 
 /**
-         * @alias {Jii.react.form.Input.prototype.props}
+         * @alias {props}
          */
 Input.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
 

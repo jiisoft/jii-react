@@ -459,17 +459,17 @@ ActiveField.propTypes = {
 };
 
 /**
-         * @alias {Jii.react.form.ActiveField.prototype.context}
+         * @alias {context}
          */
 ActiveField.contextTypes = {
 
     /**
-             * @type {Jii.react.form.ActiveForm}
+             * @type {ActiveForm}
              */
     form: React.PropTypes.object.isRequired,
 
     /**
-             * @type {Jii.data.BaseActiveRecord}
+             * @type {BaseActiveRecord}
              */
     model: React.PropTypes.object.isRequired,
 

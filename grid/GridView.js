@@ -101,7 +101,7 @@ class GridView extends BaseListView {
 
         if (requireColumnGroup) {
             return React.createElement('colgroup', null, _map(this._columns, column => {
-                /** @typedef {Jii.react.grid.Column} column */
+                /** @typedef {Column} column */
                 return React.createElement('col', column.options);
             }));
         }
@@ -114,7 +114,7 @@ class GridView extends BaseListView {
      */
     renderTableHeader() {
         return React.createElement('thead', null, React.createElement('tr', this.props.headerRowOptions, _map(this._columns, column => {
-            /** @typedef {Jii.react.grid.Column} column */
+            /** @typedef {Column} column */
             return column.renderHeaderCell();
         })));
     }
@@ -125,7 +125,7 @@ class GridView extends BaseListView {
      */
     renderTableFooter() {
         return React.createElement('tfoot', null, React.createElement('tr', this.props.footerRowOptions, _map(this._columns, column => {
-            /** @typedef {Jii.react.grid.Column} column */
+            /** @typedef {Column} column */
             return column.renderFooterCell();
         })));
     }
@@ -186,7 +186,7 @@ class GridView extends BaseListView {
         options.key = _isObject(key) ? JSON.stringify(key) : String(key);
 
         return React.createElement('tr', options, _map(this._columns, column => {
-            /** @typedef {Jii.react.grid.Column} column */
+            /** @typedef {Column} column */
             return column.renderDataCell(model, key, index);
         }));
     }
@@ -220,10 +220,10 @@ class GridView extends BaseListView {
     }
 
     /**
-     * Creates a [[Jii.react.grid.DataColumn]] object based on a string in the format of "attribute:format:label".
+     * Creates a [[DataColumn]] object based on a string in the format of "attribute:format:label".
      * @param {string} text the column specification string
      * @param {number} index
-     * @returns {Jii.react.grid.DataColumn} the column instance
+     * @returns {DataColumn} the column instance
      * @throws InvalidConfigException if the column specification is invalid
      */
     _createDataColumn(text, index) {
@@ -288,13 +288,13 @@ GridView.defaultProps = Jii.mergeConfigs(BaseListView.defaultProps, {
 });
 
 /**
- * @alias {Jii.react.grid.GridView.prototype.props}
+ * @alias {props}
  */
 GridView.propTypes = Jii.mergeConfigs(BaseListView.propTypes, {
 
     /**
      * @type {string} the default data column class if the class name is not explicitly specified when configuring a data column.
-     * Defaults to 'Jii.react.grid.DataColumn'.
+     * Defaults to 'DataColumn'.
      */
     dataColumnClassName: React.PropTypes.string,
 
@@ -380,7 +380,7 @@ GridView.propTypes = Jii.mergeConfigs(BaseListView.propTypes, {
      * This property is used to render cells that have no defined content,
      * e.g. empty footer or filter cells.
      *
-     * Note that this is not used by the [[Jii.react.grid.DataColumn]] if a data item is `null`. In that case
+     * Note that this is not used by the [[DataColumn]] if a data item is `null`. In that case
      * the [[\jii\i18n\Formatter.nullDisplay|nullDisplay]] property of the [[formatter]] will
      * be used to indicate an empty data value.
      */

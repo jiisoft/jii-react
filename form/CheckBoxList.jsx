@@ -81,7 +81,7 @@ CheckBoxList.defaultProps = Jii.mergeConfigs(ActiveField.defaultProps, {
 });
 
 /**
-         * @alias {Jii.react.form.CheckBoxList.prototype.props}
+         * @alias {props}
          */
 CheckBoxList.propTypes = Jii.mergeConfigs(ActiveField.propTypes, {
 

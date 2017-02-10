@@ -25,7 +25,7 @@ class ReactRenderer extends IRenderer {
      */
         this._lazyContent = null;
         /**
-     * @type {Jii.react.ReactView}
+     * @type {ReactView}
      */
         this.layout = null;
         super.preInit(...arguments);
@@ -34,10 +34,10 @@ class ReactRenderer extends IRenderer {
     /**
      *
      * @param {*} view
-     * @param {Jii.base.Context} context
+     * @param {Context} context
      * @param {object} params
-     * @param {Jii.base.Controller} controller
-     * @param {Jii.view.WebView} webView
+     * @param {Controller} controller
+     * @param {WebView} webView
      * @returns {*}
      */
     render(view, context, params, controller, webView) {
@@ -60,10 +60,10 @@ class ReactRenderer extends IRenderer {
     /**
      *
      * @param {*} view
-     * @param {Jii.base.Context} context
+     * @param {Context} context
      * @param {object} params
-     * @param {Jii.base.Controller} controller
-     * @param {Jii.view.WebView} webView
+     * @param {Controller} controller
+     * @param {WebView} webView
      * @returns {*}
      */
     renderLayout(view, context, params, controller, webView) {

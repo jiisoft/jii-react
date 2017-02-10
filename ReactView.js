@@ -50,8 +50,8 @@ class ReactView extends React.Component {
 
     /**
          *
-         * @param {Jii.react.ReactView} component
-         * @param {string|Jii.base.Model|Jii.base.Collection} model
+         * @param {ReactView} component
+         * @param {string|Model|Collection} model
          * @param {string[]} [attributes]
          */
     static listenModel(component, model, attributes) {
