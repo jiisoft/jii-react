@@ -1,6 +1,6 @@
 {
   "name": "jii-react",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "React components for Jii",
   "main": "index.js",
   "browser": "index-client.js",
